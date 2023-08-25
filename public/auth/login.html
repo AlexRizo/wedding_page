@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/notification.css">
+    <script src="/js/extras/notifications.js"></script>
+    <title>Alowee TWC | Auth</title>
+</head>
+
+<body>
+    <section class="container">
+        <div class="row">
+            <div class="col-3 m-auto">
+                <div class="card mt-5">
+                    <form method="POST" class="card-body needs-validation py-0" novalidate>
+                        <div class="card-title text-center">
+                            <h1>Ingresar</h1>
+                        </div>
+                        <div class="my-3">
+                            <label for="validationCustom01" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="validationCustom01" placeholder="Correo Electrónico" name="email" required>
+                            <div class="invalid-feedback">
+                                Correo no válido
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <label for="validationCustom02" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" placeholder="Contraseña" name="password" required>
+                            <div class="invalid-feedback">
+                                Contraseña inválida
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 my-4">
+                            <button class="btn btn-dark" type="submit">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/bootstrap"></script>
+    <script src="/js/auth/login.js"></script>
+</body>
+
+</html>

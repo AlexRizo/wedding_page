@@ -1,0 +1,104 @@
+:root {
+    --bg-color: #1E1F21;
+    --card-color: #2E2E30;
+
+    --sec-color: #d25c5c;
+    --sec-color-hover: #b75454;
+    --sec-color-focus: #9e4949;
+
+    --border-input-color: #767676;
+
+    --border-card-color: #5B5B5B;
+
+    --sec-text-color: #B7B7B7;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+body {
+    background: var(--bg-color);
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+h1 {
+    font-size: 20px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: fit-content;
+    padding: 20px 40px;
+    background: var(--card-color);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.login-actions {
+    width: 100%;
+}
+
+.btn {
+    height: 35px;
+    width: inherit;
+    background: var(--sec-color);
+    border: 1px solid var(--sec-color-hover) ;
+    transition: .6s;
+}
+
+.btn:hover {
+    transition: .6s;
+    background: var(--sec-color-hover);
+}
+
+.btn:active {
+    background: var(--sec-color-focus);
+}
+
+.input {
+    width: 250px;
+    height: 35px;
+    background: none;
+    border: 1px solid var(--border-input-color);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.input:focus {
+    outline: 1.5px solid var(--sec-color);
+    border-color: var(--sec-color);
+}
+
+/*? Animations  */

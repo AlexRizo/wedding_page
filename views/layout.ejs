@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/notification.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/style.css">
+    <script src="/js/extras/notifications.js"></script>
+    <script src="https://kit.fontawesome.com/d9eee5c7f7.js" crossorigin="anonymous"></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src="/js/layout.js"></script>
+    <script src="https://kit.fontawesome.com/d9eee5c7f7.js" crossorigin="anonymous"></script>
+    <title>Alowee TWC</title>
+</head>
+<body>
+    <section class="body">
+        <nav class="container-fluid">
+            <div class="row flex-nowrap">
+                <div class="bg-dark col-auto col-lg-2 col-md-3 min-vh-100">
+                    <div class="bg-dark p-2">
+                        <a href="" class="d-flex text-decoration-none mt-1 align-items-center text-white">
+                            <span class="fs-4 d-none d-sm-inline">Wedding Page</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mt-4">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-white active hover-manu-link" aria-current="page">
+                                    <i class="fa-solid fa-house"></i>
+                                    <span class="fs-6 d-none d-sm-inline ms-3">Inicio</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-white hover-manu-link" aria-current="page">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <span class="fs-6 d-none d-sm-inline ms-3">Pendientes</span>
+                                </a>
+                            </li>
+                            <li class="nav-item disabled">
+                                <a href="#" class="nav-link text-white hover-manu-link" aria-current="page">
+                                    <i class="fa-solid fa-box-open"></i>
+                                    <span class="fs-6 d-none d-sm-inline ms-3">Pedidos</span>
+                                </a>
+                            </li>
+                            <li class="nav-item disabled">
+                                <a href="#" class="nav-link text-white hover-manu-link" aria-current="page">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span class="fs-6 d-none d-sm-inline ms-3">Cerrar Sesión</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="py-2 col text-break overflow-x-hidden">
+                    <%-body%>
+                </div>
+            </div>
+        </nav>
+    </section>
+</body>
+</html>
