@@ -27,9 +27,9 @@ const connectSocket = async() => {
     socket.on('connect', () => console.log('Socket Online'));
     socket.on('disconnect', () => {
         console.log('Socket Offline')
-        localStorage.removeItem('tkn');
-        localStorage.removeItem('ur');
-        localStorage.removeItem('uid');
+        // localStorage.removeItem('tkn');
+        // localStorage.removeItem('ur');
+        // localStorage.removeItem('uid');
         location.reload();
     });
 }

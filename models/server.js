@@ -11,6 +11,8 @@ import expressLayouts from "express-ejs-layouts";
 import database from "../database/database.js";
 
 import homeRouter from "../routes/home.js";
+import pendingRouter from "../routes/pending.js";
+import orderRouter from "../routes/order.js";
 import authRouter from "../routes/auth.js";
 import userRouter from "../routes/user.js";
 
@@ -25,6 +27,9 @@ class Server {
         this.io = new socketServer(this.server);
         this.paths = {
             home: '/',
+            index: '/home',
+            pending: "/pending",
+            order: "/order",
             auth: '/auth',
             color: '/color',
             user: '/user',
@@ -78,6 +83,11 @@ class Server {
         this.app.use(this.paths.auth, authRouter);
 
         this.app.use(this.paths.home, homeRouter);
+        this.app.use(this.paths.index, homeRouter);
+
+        this.app.use(this.paths.pending, pendingRouter);
+
+        this.app.use(this.paths.order, orderRouter);
         
         this.app.use(this.paths.user, userRouter);
 
