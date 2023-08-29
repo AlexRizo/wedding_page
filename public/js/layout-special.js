@@ -13,8 +13,6 @@
             item[navLink.name] = navLink;    
         });
 
-        console.log(item);
-
         switch (pathName) {
             case 'home':
             item.home.classList.add('active');
