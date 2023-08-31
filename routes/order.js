@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createOrder, orderHome } from "../controllers/orderController.js";
+import { createOrder, orderHome, completeOrder } from "../controllers/orderController.js";
 import { jsonWebTokenMiddleware } from "../jwt/jwt.js";
 import { check } from "express-validator";
 import validateExpress from "../middlewares/validateExpress.js";
@@ -7,6 +7,8 @@ import validateExpress from "../middlewares/validateExpress.js";
 const router = Router();
 
 router.get('/', orderHome);
+
+router.get('/complete/:uid/:serial_number', completeOrder);
 
 router.post('/create/api-weddp', [
     jsonWebTokenMiddleware,
@@ -107,6 +109,7 @@ router.post('/update/:id', [
     check('history', 'history lenght is invalid').isLength({max: 2000}),
 
     check('stepId', 'stepId is null').not().isEmpty(),
+    check('userId', 'userId is null').not().isEmpty(),
 
     validateExpress
 ], createOrder);

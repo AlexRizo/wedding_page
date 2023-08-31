@@ -15,6 +15,10 @@ Order.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        name: {
+            type: new DataTypes.STRING(50),
+            allowNull: true,
+        },
         description: {
             type: new DataTypes.STRING(200),
             allowNull: false,
@@ -137,6 +141,10 @@ Order.init(
             type: new DataTypes.INTEGER,
             defaultValue: 1,
             allowNull: true,
+        },
+        userId: {
+            type: new DataTypes.INTEGER,
+            allowNull: false,
         },
         createdAt: {
             type: new DataTypes.DATE

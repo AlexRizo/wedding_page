@@ -11,7 +11,7 @@ Step.init(
             primaryKey: true,
         },
         name: {
-            type: new DataTypes.STRING(20),
+            type: new DataTypes.STRING(50),
             allowNull: false,
         },
         createdAt: {

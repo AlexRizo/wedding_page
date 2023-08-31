@@ -12,25 +12,13 @@ export const emailValidation = async(email = '') => {
 
 export const roleValidation = async(role = 0) => {
     if (!role) {
-        role = 6;
+        role = 1;
     }
 
     const $roleDB = await Role.findByPk(role);
 
     if (!$roleDB) {
         throw new Error(`El rol no es válido.`);
-    }
-}
-
-export const teamValidation = async(team = 0) => {
-    if (!team) {
-        throw new Error(`El equipo es obligatorio.`);
-    }
-
-    const $teamDB = await Team.findByPk(team);
-
-    if (!$teamDB) {
-        throw new Error(`El equipo no existe.`);
     }
 }
 // ?
@@ -43,6 +31,7 @@ export const updateEmailValidation = async(email = '') => {
         throw new Error('El correo no es válido.');
     }
 }
+
 export const updateRoleValidation = async(role = 0) => {
     if (!role) {
         return true;
@@ -52,18 +41,6 @@ export const updateRoleValidation = async(role = 0) => {
 
     if (!$roleDB) {
         throw new Error(`El rol no es válido.`);
-    }
-}
-
-export const updateTeamValidation = async(team = 0) => {
-    if (!team) {
-        return true;
-    }
-    
-    const $teamDB = await Team.findByPk(team);
-
-    if (!$teamDB) {
-        throw new Error(`El equipo no existe.`);
     }
 }
 //*

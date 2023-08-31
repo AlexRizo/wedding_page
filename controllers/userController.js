@@ -60,7 +60,7 @@ export const updateUser = async(req, res) => {
         if(emailExist && emailExist.id != id) {
             return res.status(401).json({error: 'El correo ya existe.'});
         } else if (emailExist && emailExist.id === id) {
-            console.log('Hola mundo');
+            console.log('Autorizado');
         }else {
             user.email = email;
         }

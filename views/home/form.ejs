@@ -1,0 +1,28 @@
+<div class="col">
+    <div class="container d-flex flex-column align-items-center page">
+        <div class="card text-bg-primary mb-5" style="max-width: 20rem;">
+            <div class="card-header">Paso 1 / 7</div>
+            <div class="card-body">
+                <h5 class="card-title">Datos de la pareja</h5>
+                <p class="card-text">Completa la información para avanzar al siguiente paso.</p>
+            </div>
+        </div>
+
+        <div class="col-7">
+            <form class="row">
+                <input type="hidden" name="id" id="id" value="<%= orderId %>">
+                
+            </form>
+            <div class="col-12 mb-5">
+                <button type="button" disabled class="btn btn-dark btn-back">Regresar</button>
+                <button type="button" class="btn btn-dark btn-save">Guardar</button>
+            </div>
+
+            <div class="col-12 alert alert-dark" role="alert">
+                * Es importante guardar los datos actuales antes de salir del sitio, para guardar tu prograso y poder continuar la siguiente vez que ingreses al sitio.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/home/form.js"></script>

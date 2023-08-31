@@ -3,9 +3,63 @@
 }
 
 .body {
-
+    background: rgb(243, 245, 249);
 }
 
 .hover-menu-link:hover {
     background: rgb(31, 46, 62);
 }
+
+/* .time-line-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.line {
+    width: 80px;
+    background: rgba(209, 209, 209, 0.577);
+    height: 2px;
+}
+
+.step-pad {
+    background: white;
+    border-radius: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    border-radius: inherit;
+    background: rgb(152, 100, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.step-active {
+    width: 55px;
+    height: 55px;
+}
+
+@media (max-width: 1400px) {
+    .line {
+        width: 60px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .line {
+        width: 50px;
+    }
+    
+    .step-active {
+        width: 50px;
+        height: 50px;
+    }
+} */
