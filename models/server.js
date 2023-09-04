@@ -15,6 +15,7 @@ import pendingRouter from "../routes/pending.js";
 import orderRouter from "../routes/order.js";
 import authRouter from "../routes/auth.js";
 import userRouter from "../routes/user.js";
+import fileUpload from "express-fileupload";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -77,6 +78,13 @@ class Server {
         
         // Directorio public;
         this.app.use(express.static('public'));
+
+        // Middleware necesario para la subida de archivos
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
 
     routes() {        

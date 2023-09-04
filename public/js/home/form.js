@@ -8,45 +8,46 @@
     const cardTitle = document.querySelector('.card-title');
 
     const orderId = document.getElementById('id').value;
+    let stepId = 0;
 
     form.addEventListener ('submit', async(ev) => {
         ev.preventDefault();
         
         const data = {};
-        const formData = new FormData();
-       
+        const formData = new FormData()
+
         const inputs = document.querySelectorAll('input');
 
         inputs.forEach(input => {
             if (input.type === 'file') {
-                formData.append(`${ input.name }`, input.files[0])
+                formData.append(input.name, { 1: input.name, 2: input.files[0].name});
+                formData.append(`${ input.name }`, input.files[0]);
             }else {
                 data[input.name] = input.value;
             }
         });
-        formData.append('uid', localStorage.getItem('uid'))
-        formData.append('orderId', orderId)
-        
-        socket.emit('set-order-data', data);
 
-        for (const key of formData.keys()) {
-            console.log(key);
-        }
+        console.log(formData.values('girlfriend_photo'), formData.values({1: 'boyfriend_photo'}));
 
-        for (const value of formData.values()) {
-            console.log(value);
-        }
+        formData.append('stepId', stepId);
+        formData.append('orderId', orderId);
 
-        await fetch(`${ url }/order/image/upload`, {
+        fetch(`${ url }/order/image/upload`, {
             method: 'POST',
             body: formData,
-
+            headers: {
+                'tkn': localStorage.getItem('tkn')
+            }
         })
         .then(resp => resp.json())
-        .then((resp) => {
-            return console.log(resp);
-        })
-        .catch(console.error);
+        .then(resp => {
+            if (resp.error) {
+                return sendNotification('Ha ocurrido un error', resp.error);
+            }
+
+            sendNotification('Respuesta:', resp);
+            socket.emit('set-order-data', data);
+        });        
     });
 
     const formByStep = (title = 'Llena los datos', step = 0, data = {}) => {
@@ -277,6 +278,7 @@
     socket.emit('get-actuallly-step', orderId);
 
     socket.on('set-actuallly-step', (orderStep) => {
+        stepId = orderStep.id;
         switch (orderStep.id) {
             case 1:
                 formByStep(orderStep.name, orderStep.id)
@@ -307,6 +309,4 @@
                 break;
         }
     });
-
-
 })();

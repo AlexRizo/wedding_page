@@ -115,8 +115,9 @@ router.post('/update/:id', [
 ], createOrder);
 
 router.post('/image/upload', [
-    // jsonWebTokenMiddleware,
-    check('uid', 'uid is null').not().isEmpty(),
+    jsonWebTokenMiddleware,
+    check('orderId', 'orderId is null').not().isEmpty(),
     validateExpress,
 ], uploadFiles);
+
 export default router;

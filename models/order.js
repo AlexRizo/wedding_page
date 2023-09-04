@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../database/database.js';
 import Step from './step.js';
+import User from './user.js';
 
 class Order extends Model {}
   
@@ -34,7 +35,15 @@ Order.init(
             allowNull: true,
         },
         girlfriend_name: {
-            type: new DataTypes.STRING(50),
+            type: new DataTypes.INTEGER,
+            allowNull: true,
+        },
+        girlfriend_photo: {
+            type: new DataTypes.STRING(225),
+            allowNull: true,
+        },
+        boyfriend_photo: {
+            type: new DataTypes.STRING(225),
             allowNull: true,
         },
         boyfriend_email: {
@@ -161,5 +170,8 @@ Order.init(
 
 Step.hasMany(Order, { foreignKey: 'stepId', targetKey:'id' });
 Order.belongsTo(Step);
+
+User.hasMany(Order, { foreignKey: 'userId', targetKey:'id' });
+Order.belongsTo(User);
 
 export default Order;
