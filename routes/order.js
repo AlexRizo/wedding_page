@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createOrder, orderHome, completeOrder } from "../controllers/orderController.js";
+import { createOrder, orderHome, completeOrder, uploadFiles } from "../controllers/orderController.js";
 import { jsonWebTokenMiddleware } from "../jwt/jwt.js";
 import { check } from "express-validator";
 import validateExpress from "../middlewares/validateExpress.js";
@@ -114,4 +114,9 @@ router.post('/update/:id', [
     validateExpress
 ], createOrder);
 
+router.post('/image/upload', [
+    // jsonWebTokenMiddleware,
+    check('uid', 'uid is null').not().isEmpty(),
+    validateExpress,
+], uploadFiles);
 export default router;

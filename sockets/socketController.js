@@ -34,6 +34,11 @@ const socketController = async(socket = new Socket(), io) => {
         console.log(orderId);
         return socket.emit('set-actuallly-step', await getActuallyStep(orderId));
     });
+
+    socket.on('set-order-data', (formData) => {
+        console.log(formData);
+        return true;
+    })
     //!
 }
 

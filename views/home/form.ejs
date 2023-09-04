@@ -9,17 +9,15 @@
         </div>
 
         <div class="col-7">
+            <input type="hidden" name="id" id="id" value="<%= orderId %>">
             <form class="row">
-                <input type="hidden" name="id" id="id" value="<%= orderId %>">
                 
             </form>
-            <div class="col-12 mb-5">
-                <button type="button" disabled class="btn btn-dark btn-back">Regresar</button>
-                <button type="button" class="btn btn-dark btn-save">Guardar</button>
-            </div>
 
             <div class="col-12 alert alert-dark" role="alert">
-                * Es importante guardar los datos actuales antes de salir del sitio, para guardar tu prograso y poder continuar la siguiente vez que ingreses al sitio.
+                <strong>*</strong> Es importante guardar los datos actuales antes de salir del sitio, para guardar tu prograso y poder continuar la siguiente vez que ingreses al sitio.
+                <br>
+                <strong>*</strong> No importa si te equivocas, al final podrás revisar nuevamente tu información.
             </div>
         </div>
     </div>

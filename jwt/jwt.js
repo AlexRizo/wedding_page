@@ -53,9 +53,10 @@ export const jsonWebTokenMiddleware = async(req, res, next) => {
         }
 
         req.user = user;
-        next();
+        return next();
     } catch (error) {
         console.log(error);
+        console.log(tkn);
         res.status(401).json({ error: 'Error al validar el token.' });
     }
 } 

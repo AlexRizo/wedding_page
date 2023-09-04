@@ -55,3 +55,10 @@ export const completeOrder = async(req, res) => {
 
     return res.render('home/form', { orderId: order.id });
 }
+
+export const uploadFiles = (req, res) => {
+    console.log(req.body);
+    console.log(req.files);
+    console.log(req);
+    res.status(200).json('Imagen subida con éxito');
+}
