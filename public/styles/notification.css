@@ -8,7 +8,7 @@
     position: absolute;
     padding: 20px;
     background: var(--card-color);
-    height: 100px;
+    min-height: 100px;
     max-width: 600px;
     top: -20%;
     right: 10px;

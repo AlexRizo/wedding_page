@@ -55,7 +55,7 @@ Order.init(
             allowNull: true,
         },
         wedding_date: {
-            type: new DataTypes.STRING(5),
+            type: new DataTypes.STRING(10),
             allowNull: true,
         },
         godfather: {

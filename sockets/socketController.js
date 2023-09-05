@@ -15,6 +15,11 @@ const getActuallyStep = async(orderId) => {
     return order.Step;
 }
 
+const saveOrderData = async({id, ...data}) => {
+    data.stepId = (await getActuallyStep(id)).id + 1;
+    return await Order.update(data, { where: { 'id': id } });
+}
+
 const socketController = async(socket = new Socket(), io) => {
     const user = await validateJWT(socket.handshake.headers['tkn']);
 
@@ -30,15 +35,16 @@ const socketController = async(socket = new Socket(), io) => {
 
     // ! FORM PAGE SOCKETS:
     socket.on('get-actuallly-step', async(orderId) => {
-
-        console.log(orderId);
         return socket.emit('set-actuallly-step', await getActuallyStep(orderId));
     });
 
-    socket.on('set-order-data', (formData) => {
-        console.log(formData);
-        return true;
-    })
+    socket.on('send-order-data', async(data) => {
+        const response = await saveOrderData(data);
+
+        socket.emit('data-saved', response);
+        socket.emit('set-actuallly-step', await getActuallyStep(data.id));
+        return;
+    });
     //!
 }
 

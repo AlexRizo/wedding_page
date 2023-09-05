@@ -73,33 +73,37 @@ export const uploadFiles = async (req, res) => {
     const { orderId, stepId, ...data } = req.body;
     let filePath = '', i = 0,  cloudRes, image;
 
-    console.log(stepId);
-
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).json({ response: 'No se han recibido archivos.' });
         }
             
         const files = Object.values(req.files);
-        
         const image_name = Object.keys(data);
     
         for (const file of files) {
             const image_key = image_name[i];
+            const fileName = file.name.split('.');
+            const extension = fileName[fileName.length - 1];
+            const validExtensions = ['jpg', 'jpeg', 'png'];
             let test;
+
             filePath = file.tempFilePath;
-            
-            // cloudRes = await cloudinary.uploader.upload(filePath);
-    
+            cloudRes = await cloudinary.uploader.upload(filePath);
+
             const json = {
                 name: image_key,
                 url: 'cloudRes.secure_url',
                 orderId,
             }
+
+            if (!validExtensions.includes(extension)) {
+                return res.status(400).json({ 
+                    error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG'
+                });
+            }
     
             image = await Image.create(json);
-
-            // const test = 
             
             switch (stepId) {
                 case '1':
@@ -116,9 +120,9 @@ export const uploadFiles = async (req, res) => {
             i++;
         }
     
-        return res.status(200).json('Imagen subida con éxito');        
+        return res.status(200).json('Información enviada correctamente.');
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ error: 'Ha ocurrido un error -CRÍTICO- { 500 }' });        
+        return res.status(500).json({ error: 'Ha ocurrido un error -CRÍTICO- { 500 }' });
     }
 }

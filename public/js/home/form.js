@@ -45,8 +45,7 @@
                 return sendNotification('Ha ocurrido un error', resp.error);
             }
 
-            sendNotification('Respuesta:', resp);
-            socket.emit('set-order-data', data);
+            socket.emit('send-order-data', data);
         });        
     });
 
@@ -54,11 +53,11 @@
         const step1 =  `
             <div class="col-md-6 mb-3">
                 <label for="boyfriend" class="form-label">Nombre de la pareja 1</label>
-                <input required type="text" class="form-control" id="boyfriend" name="boyfriend">
+                <input required type="text" class="form-control" id="boyfriend" name="boyfriend_name" placeholder="Nombre completo">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="girlfriend" class="form-label">Nombre de la pareja 2</label>
-                <input required type="text" class="form-control" id="girlfriend" name="girlfriend">
+                <input required type="text" class="form-control" id="girlfriend" name="girlfriend_name" placeholder="Nombre completo">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="boyfriend_email" class="form-label">Correo de la pareja 1</label>
@@ -308,5 +307,9 @@
                 sendNotification('Ha ocurrido un error desconocido.', 'Si el error persiste comunícate con nosotros.')
                 break;
         }
+    });
+
+    socket.on('data-saved', (response) => {
+        return sendNotification('Datos enviados', 'Se han enviado los datos correctamente.')
     });
 })();
