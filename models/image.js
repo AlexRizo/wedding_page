@@ -23,6 +23,10 @@ Image.init(
             type: new DataTypes.INTEGER,
             allowNull: false,
         },
+        publicId: {
+            type: new DataTypes.STRING(20),
+            allowNull: false,
+        },
         createdAt: {
             type: new DataTypes.DATE
         },

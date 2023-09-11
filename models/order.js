@@ -38,14 +38,6 @@ Order.init(
             type: new DataTypes.INTEGER,
             allowNull: true,
         },
-        girlfriend_photo: {
-            type: new DataTypes.STRING(225),
-            allowNull: true,
-        },
-        boyfriend_photo: {
-            type: new DataTypes.STRING(225),
-            allowNull: true,
-        },
         boyfriend_email: {
             type: new DataTypes.STRING(50),
             allowNull: true,

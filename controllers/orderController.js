@@ -72,6 +72,7 @@ export const completeOrder = async(req, res) => {
 export const uploadFiles = async (req, res) => {
     const { orderId, stepId, ...data } = req.body;
     let filePath = '', i = 0,  cloudRes, image;
+    let status = true;
 
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
@@ -80,43 +81,39 @@ export const uploadFiles = async (req, res) => {
             
         const files = Object.values(req.files);
         const image_name = Object.keys(data);
-    
-        for (const file of files) {
-            const image_key = image_name[i];
+
+        files.forEach(file => {
             const fileName = file.name.split('.');
             const extension = fileName[fileName.length - 1];
             const validExtensions = ['jpg', 'jpeg', 'png'];
-            let test;
 
+            if (!validExtensions.includes(extension)) {
+                return status = false;
+            }
+        });
+        
+        if (!status) {
+            return res.status(400).json({ 
+                error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG'
+            });
+        }
+        
+        for (const file of files) {
+            const image_key = image_name[i];
+            
             filePath = file.tempFilePath;
             cloudRes = await cloudinary.uploader.upload(filePath);
 
+            console.log(cloudRes);
+
             const json = {
                 name: image_key,
-                url: 'cloudRes.secure_url',
+                url: cloudRes.secure_url,
                 orderId,
-            }
+                publicId: cloudRes.public_id
+            };
 
-            if (!validExtensions.includes(extension)) {
-                return res.status(400).json({ 
-                    error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG'
-                });
-            }
-    
             image = await Image.create(json);
-            
-            switch (stepId) {
-                case '1':
-                        test = image_key === 'boyfriend_photo' ? await Order.update({ 'boyfriend_photo': image.id }, { where: { 'id': orderId } })
-                                                               : await Order.update({ 'girlfriend_photo': image.id }, { where: { 'id': orderId } }); 
-                    break;
-            
-                default:
-                    console.log(`Ha ocurrido un error al intentar subir ${ file.name }`);
-                    break;
-            }
-            
-            console.log(test);
             i++;
         }
     
