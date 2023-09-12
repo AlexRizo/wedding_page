@@ -104,8 +104,6 @@ export const uploadFiles = async (req, res) => {
             filePath = file.tempFilePath;
             cloudRes = await cloudinary.uploader.upload(filePath);
 
-            console.log(cloudRes);
-
             const json = {
                 name: image_key,
                 url: cloudRes.secure_url,

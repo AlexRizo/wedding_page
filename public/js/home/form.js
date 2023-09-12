@@ -3,31 +3,47 @@
     
     const body = document.querySelector('.page');
     const form = document.querySelector('form');
-    const btnSave = document.querySelector('.btn-save');
     const cardHeader = document.querySelector('.card-header');
     const cardTitle = document.querySelector('.card-title');
 
     const orderId = document.getElementById('id').value;
     let stepId = 0;
 
+    const validateDate = (date) => {
+        // Obtén la fecha actual en el formato "YYYY-MM-DD"
+        const actualDate = new Date().toISOString().split('T')[0];
+      
+        // Compara la fecha ingresada con la fecha actual
+        if (date < actualDate) {
+          sendNotification('Ha ocurrido un error', 'La fecha no puede ser anterior a la fecha actual');
+          return false;
+        } else {
+          return true;
+        }
+    }
+
     form.addEventListener ('submit', async(ev) => {
         ev.preventDefault();
         
         const data = {};
-        const formData = new FormData()
-
+        const formData = new FormData();
         const inputs = document.querySelectorAll('input');
+        let formStatus = true;
 
         inputs.forEach(input => {
             if (input.type === 'file') {
                 formData.append(input.name, { 1: input.name, 2: input.files[0].name});
                 formData.append(`${ input.name }`, input.files[0]);
-            }else {
+            } else if (input.type === 'date') {
+                formStatus = validateDate(input.value) ? true : false;
+            } else {
                 data[input.name] = input.value;
             }
         });
 
-        console.log(formData.values('girlfriend_photo'), formData.values({1: 'boyfriend_photo'}));
+        if (!formStatus) {
+            return false;
+        }
 
         formData.append('stepId', stepId);
         formData.append('orderId', orderId);
@@ -88,28 +104,36 @@
         const step2 =  `
             <div class="col-md-6 mb-3">
                 <label for="godfather" class="form-label">Nombre del padrino</label>
-                <input required type="text" class="form-control" id="godfather" name="godfather">
+                <input required type="text" class="form-control" id="godfather" name="godfather" placeholder="Nombre completo">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="godmother" class="form-label">Nombre de la madrina</label>
-                <input required type="text" class="form-control" id="godmother" name="godmother">
+                <input required type="text" class="form-control" id="godmother" name="godmother" placeholder="Nombre completo">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="godfather_photo" class="form-label">Foto del padrino</label>
+                <input required class="form-control" type="file" id="godfather_photo" name="godfather_photo">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="godmother_photo" class="form-label">Foto de los padres de la pareja 2</label>
+                <input required class="form-control" type="file" id="godmother_photo" name="godmother_photo">
             </div>
             <h5 class="my-3">Datos de los padres de la pareja</h5>
             <div class="col-md-6 mb-3">
                 <label for="boyfriend_father" class="form-label">Padre de la pareja 1</label>
-                <input required type="text" class="form-control" id="boyfriend_father" name="boyfriend_father">
+                <input required type="text" class="form-control" id="boyfriend_father" name="boyfriend_father" placeholder="Nombre completo">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="boyfriend_mother" class="form-label">Madre de la pareja 1</label>
-                <input required type="text" class="form-control" id="boyfriend_mother" name="boyfriend_mother">
+                <input required type="text" class="form-control" id="boyfriend_mother" name="boyfriend_mother" placeholder="Nombre completo">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="girlfriend_father" class="form-label">Padre de la pareja 2</label>
-                <input required type="text" class="form-control" id="girlfriend_father" name="girlfriend_father">
+                <input required type="text" class="form-control" id="girlfriend_father" name="girlfriend_father" placeholder="Nombre completo">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="girlfriend_mother" class="form-label">Madre de la pareja 2</label>
-                <input required type="text" class="form-control" id="girlfriend_mother" name="girlfriend_mother">
+                <input required type="text" class="form-control" id="girlfriend_mother" name="girlfriend_mother" placeholder="Nombre completo">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="boyfriend_parents_photo" class="form-label">Foto de los padres de la pareja 1</label>
@@ -135,8 +159,12 @@
                 <input required type="time" class="form-control" id="church_time" name="church_time">
             </div>
             <div class="mb-3">
+                <label for="church_photo" class="form-label">Foto de la iglesia</label>
+                <input required class="form-control" type="file" id="church_photo" name="church_photo">
+            </div>
+            <div class="mb-3">
                 <label for="church_location" class="form-label">Ubicación de la iglesia</label>
-                <input required type="text" class="form-control" id="church_location" name="church_location">
+                <input required type="text" class="form-control" id="church_location" name="church_location" placeholder="Ubicación / Link">
             </div>
             <div class="mb-3">
                 <label for="church_references">Referencias de la iglesia</label>
@@ -310,6 +338,6 @@
     });
 
     socket.on('data-saved', (response) => {
-        return sendNotification('Datos enviados', 'Se han enviado los datos correctamente.')
+        return sendNotification('Datos enviados', `Se han enviado los datos correctamente. ${ response }`)
     });
 })();
