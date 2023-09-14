@@ -22,35 +22,62 @@
         }
     }
 
-    form.addEventListener ('submit', async(ev) => {
-        ev.preventDefault();
-        
-        const data = {};
+    const getInputsValues = () => {
+        const inputs     = document.querySelectorAll('input')     || null,
+              textsareas =  document.querySelectorAll('textarea') || null,
+              selects    =  document.querySelectorAll('select')   || null;
+
         const formData = new FormData();
-        const inputs = document.querySelectorAll('input');
-        let formStatus = true;
 
-        inputs.forEach(input => {
-            if (input.type === 'file') {
-                formData.append(input.name, { 1: input.name, 2: input.files[0].name});
-                formData.append(`${ input.name }`, input.files[0]);
-            } else if (input.type === 'date') {
-                formStatus = validateDate(input.value) ? true : false;
-            } else {
-                data[input.name] = input.value;
-            }
-        });
+        const data = {};
+        let status = true;
+        
+        if (inputs) {
+            inputs.forEach(input => {
+                // ? Si es necesario añade más validaciones para distintos tipos de inputs;
+                if (input.type === 'file') {
+                    formData.append(input.name, { 1: input.name, 2: input.files[0].name});
+                    formData.append(`${ input.name }`, input.files[0]);
+                } else if (input.type === 'date') {
+                    status = validateDate(input.value) ? true : false;
+                    data[input.name] = input.value;
+                } else {
+                    data[input.name] = input.value;
+                }
+            });
+        }
 
-        if (!formStatus) {
-            return false;
+        if (textsareas) {
+            textsareas.forEach(textarea => {
+                data[textarea.name] = textarea.value;
+            });
+        }
+
+        if (selects) {
+            selects.forEach(select => {
+                data[select.name] = select.value;
+            });
         }
 
         formData.append('stepId', stepId);
         formData.append('orderId', orderId);
 
+        return { data, formData, status };
+    }
+
+    form.addEventListener ('submit', async(ev) => {
+        ev.preventDefault();
+        
+        const localRes = getInputsValues();
+
+        if (!localRes.status) {
+            return false;
+        }
+
+        console.log(localRes);
         fetch(`${ url }/order/image/upload`, {
             method: 'POST',
-            body: formData,
+            body: localRes.formData,
             headers: {
                 'tkn': localStorage.getItem('tkn')
             }
@@ -60,8 +87,7 @@
             if (resp.error) {
                 return sendNotification('Ha ocurrido un error', resp.error);
             }
-
-            socket.emit('send-order-data', data);
+            socket.emit('send-order-data', localRes.data);
         });        
     });
 
@@ -168,7 +194,7 @@
             </div>
             <div class="mb-3">
                 <label for="church_references">Referencias de la iglesia</label>
-                <textarea class="form-control" placeholder="Referencias de cómo llegar..." id="church_references" style="height: 100px"></textarea>
+                <textarea class="form-control" placeholder="Referencias de cómo llegar..." id="church_references" name="church_references" style="height: 100px"></textarea>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -338,6 +364,6 @@
     });
 
     socket.on('data-saved', (response) => {
-        return sendNotification('Datos enviados', `Se han enviado los datos correctamente. ${ response }`)
+        return sendNotification('Datos enviados', `Se han enviado los datos correctamente.`)
     });
 })();

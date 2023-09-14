@@ -78,12 +78,8 @@ Order.init(
             type: new DataTypes.STRING(50),
             allowNull: true,
         },
-        church_date: {
-            type: new DataTypes.STRING(5),
-            allowNull: true,
-        },
-        church_turn: {
-            type: new DataTypes.STRING(2),
+        church_time: {
+            type: new DataTypes.STRING(10),
             allowNull: true,
         },
         church_location: {
@@ -98,12 +94,8 @@ Order.init(
             type: new DataTypes.STRING(50),
             allowNull: true,
         },
-        event_date: {
-            type: new DataTypes.STRING(5),
-            allowNull: true,
-        },
-        event_turn: {
-            type: new DataTypes.STRING(2),
+        event_time: {
+            type: new DataTypes.STRING(10),
             allowNull: true,
         },
         event_location: {

@@ -20,7 +20,7 @@
                     <h5 class="card-title">${ order.name }</h5>
                     <p class="text-secondary">Estado: <span class="text-decoration-underline">${ (order.status ? 'Completado' : 'Pendiente') }</span></p>
                     <p class="card-text">${ order.description }</p>
-                    <a href="/order/complete/${ order.userId }/${order.serial_number}" class="btn btn-dark">Completar pedido</a>
+                    ${(order.status) ? '<a href="/order/' + order.userId + '/' + order.serial_number + '" class="btn btn-dark">Ver Pedido</a>' : '<a href="/order/complete/' + order.userId + '/' + order.serial_number + '" class="btn btn-dark">Completar pedido</a>'}
                 </div>
             </div>
             `;

@@ -76,7 +76,8 @@ export const uploadFiles = async (req, res) => {
 
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).json({ response: 'No se han recibido archivos.' });
+            // return res.status(400).json({ error: 'No se han recibido archivos.' });
+            return true;
         }
             
         const files = Object.values(req.files);
