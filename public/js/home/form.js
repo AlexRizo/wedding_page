@@ -30,14 +30,15 @@
         const formData = new FormData();
 
         const data = {};
-        let status = true;
-        
+        let status = true, files = false;
+
         if (inputs) {
             inputs.forEach(input => {
                 // ? Si es necesario añade más validaciones para distintos tipos de inputs;
                 if (input.type === 'file') {
                     formData.append(input.name, { 1: input.name, 2: input.files[0].name});
                     formData.append(`${ input.name }`, input.files[0]);
+                    files = true;
                 } else if (input.type === 'date') {
                     status = validateDate(input.value) ? true : false;
                     data[input.name] = input.value;
@@ -62,7 +63,7 @@
         formData.append('stepId', stepId);
         formData.append('orderId', orderId);
 
-        return { data, formData, status };
+        return { data, formData, status, files };
     }
 
     form.addEventListener ('submit', async(ev) => {
@@ -74,21 +75,25 @@
             return false;
         }
 
-        console.log(localRes);
-        fetch(`${ url }/order/image/upload`, {
-            method: 'POST',
-            body: localRes.formData,
-            headers: {
-                'tkn': localStorage.getItem('tkn')
-            }
-        })
-        .then(resp => resp.json())
-        .then(resp => {
-            if (resp.error) {
-                return sendNotification('Ha ocurrido un error', resp.error);
-            }
-            socket.emit('send-order-data', localRes.data);
-        });        
+        if (localRes.files) {
+            fetch(`${ url }/order/image/upload`, {
+                method: 'POST',
+                body: localRes.formData,
+                headers: {
+                    'tkn': localStorage.getItem('tkn')
+                }
+            })
+            .then(resp => resp.json())
+            .then(resp => {
+                if (resp.error) {
+                    return sendNotification('Ha ocurrido un error', resp.error);
+                }
+
+                return socket.emit('send-order-data', { data: localRes.data, images: resp.images });
+            });      
+        } else {
+            return socket.emit('send-order-data', localRes.data);
+        }
     });
 
     const formByStep = (title = 'Llena los datos', step = 0, data = {}) => {
@@ -141,7 +146,7 @@
                 <input required class="form-control" type="file" id="godfather_photo" name="godfather_photo">
             </div>
             <div class="col-md-6 mb-3">
-                <label for="godmother_photo" class="form-label">Foto de los padres de la pareja 2</label>
+                <label for="godmother_photo" class="form-label">Foto de la madrina</label>
                 <input required class="form-control" type="file" id="godmother_photo" name="godmother_photo">
             </div>
             <h5 class="my-3">Datos de los padres de la pareja</h5>
@@ -205,7 +210,7 @@
         const step4 =  `
             <div class="col-md-6 mb-3">
                 <label for="event" class="form-label">Lugar del evento</label>
-                <input required type="text" class="form-control" id="event" name="event">
+                <input required type="text" class="form-control" id="event" name="event" maxLength="50">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="event_time" class="form-label">Hora del evento</label>
@@ -213,11 +218,11 @@
             </div>
             <div class="mb-3">
                 <label for="event_location" class="form-label">Ubicación del evento</label>
-                <input required type="text" class="form-control" id="event_location" name="event_location">
+                <input required type="text" class="form-control" id="event_location" name="event_location" maxLength="100">
             </div>
             <div class="mb-3">
                 <label for="event_references">Referencias delugar del evento</label>
-                <textarea class="form-control" placeholder="Referencias de cómo llegar..." id="event_references" name="event_references" style="height: 100px"></textarea>
+                <textarea class="form-control" placeholder="Referencias de cómo llegar..." id="event_references" name="event_references" style="height: 100px" maxLength="200"></textarea>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -324,7 +329,7 @@
         }
 
         cardHeader.innerText = title;
-        cardTitle.innerText = `Paso ${step} / 6`;
+        cardTitle.innerText = `Paso ${ step } / 6`;
     
     }
 
@@ -362,6 +367,26 @@
                 break;
         }
     });
+
+    socket.on('error', (images = []) => {
+        if (images) {
+            fetch(`${ url }/cloudinary/images/delete`, {
+                method: 'DELETE',
+                body: JSON.stringify({ images }),
+                headers: {
+                    'tkn': localStorage.getItem('tkn'),
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.json()
+            .then(response => {
+                console.log(response);
+                alert(response);
+            })
+            .catch(console.error));
+        }
+        return sendNotification('Ha ocurrido un error', 'Algunos datos son inválidos o exceden el límite establecido');
+    })
 
     socket.on('data-saved', (response) => {
         return sendNotification('Datos enviados', `Se han enviado los datos correctamente.`)

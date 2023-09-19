@@ -17,7 +17,14 @@ const getActuallyStep = async(orderId) => {
 
 const saveOrderData = async({id, ...data}) => {
     data.stepId = (await getActuallyStep(id)).id + 1;
-    return await Order.update(data, { where: { 'id': id } });
+
+    try {
+        return await Order.update(data, { where: { 'id': id } });;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+
 }
 
 const socketController = async(socket = new Socket(), io) => {
@@ -38,12 +45,16 @@ const socketController = async(socket = new Socket(), io) => {
         return socket.emit('set-actuallly-step', await getActuallyStep(orderId));
     });
 
-    socket.on('send-order-data', async(data) => {
+    socket.on('send-order-data', async({ data, images }) => {
         const response = await saveOrderData(data);
 
-        socket.emit('data-saved', response);
-        socket.emit('set-actuallly-step', await getActuallyStep(data.id));
-        return;
+        if (response) {
+            socket.emit('data-saved', response);
+            socket.emit('set-actuallly-step', await getActuallyStep(data.id));
+            return;
+        } else {
+            return socket.emit('error', images);
+        }
     });
     //!
 }

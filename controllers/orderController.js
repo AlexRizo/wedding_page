@@ -71,13 +71,13 @@ export const completeOrder = async(req, res) => {
 
 export const uploadFiles = async (req, res) => {
     const { orderId, stepId, ...data } = req.body;
-    let filePath = '', i = 0,  cloudRes, image;
+    let filePath = '', i = 0,  cloudRes, image, images = [];
     let status = true;
 
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
-            // return res.status(400).json({ error: 'No se han recibido archivos.' });
-            return true;
+            return res.status(400).json({ error: 'No se han recibido archivos.' });
+            // return res.status(200).json({ status });
         }
             
         const files = Object.values(req.files);
@@ -112,11 +112,12 @@ export const uploadFiles = async (req, res) => {
                 publicId: cloudRes.public_id
             };
 
+            images.push(cloudRes.public_id);
             image = await Image.create(json);
             i++;
         }
     
-        return res.status(200).json('Información enviada correctamente.');
+        return res.status(200).json({ response: 'Información enviada correctamente.', images });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: 'Ha ocurrido un error -CRÍTICO- { 500 }' });

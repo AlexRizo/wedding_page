@@ -15,6 +15,8 @@ import pendingRouter from "../routes/pending.js";
 import orderRouter from "../routes/order.js";
 import authRouter from "../routes/auth.js";
 import userRouter from "../routes/user.js";
+import cloudinaryRouter from "../routes/cloudinary.js";
+
 import fileUpload from "express-fileupload";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,7 +37,8 @@ class Server {
             color: '/color',
             user: '/user',
             staff: '/staff',
-            team: '/team'
+            team: '/team',
+            cloudinary: '/cloudinary'
             
         }
 
@@ -98,6 +101,9 @@ class Server {
         this.app.use(this.paths.order, orderRouter);
         
         this.app.use(this.paths.user, userRouter);
+
+        this.app.use(this.paths.cloudinary, cloudinaryRouter);
+
 
         this.app.get('/login', (req, res) => {
             res.sendFile(path.join(__dirname, '../public/auth', 'login.html'));
