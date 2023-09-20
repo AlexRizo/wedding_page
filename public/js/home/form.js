@@ -87,30 +87,21 @@
             body: orderData.orderData
         })
         .then(response => response.json())
-        .then(response => {
+        .then((errors = null, response = null)=> {
+            if (errors) {
+                let errorString = '';
+                
+                errors.errors.forEach(error => {
+                    errorString += `${ error.msg } <br>`;
+                });
+
+                console.error(errors);
+                return sendNotification('Campos inválidos', errorString);
+            }
+
             console.log(response);
         })
         .catch(console.error);
-
-        // if (localRes.files) {
-        //     fetch(`${ url }/order/image/upload`, {
-        //         method: 'POST',
-        //         body: localRes.formData,
-        //         headers: {
-        //             'tkn': localStorage.getItem('tkn')
-        //         }
-        //     })
-        //     .then(resp => resp.json())
-        //     .then(resp => {
-        //         if (resp.error) {
-        //             return sendNotification('Ha ocurrido un error', resp.error);
-        //         }
-
-        //         return socket.emit('send-order-data', { data: localRes.data, images: resp.images });
-        //     });      
-        // } else {
-        //     return socket.emit('send-order-data', localRes.data);
-        // }
     });
 
     const formByStep = (title = 'Llena los datos', step = 0, data = {}) => {

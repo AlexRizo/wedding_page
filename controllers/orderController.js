@@ -72,7 +72,11 @@ export const completeOrder = async(req, res) => {
 // TODO: complete this method;
 export const continueOrder = (req, res) => {
     const { id, ...orderData } = req.body,
-          files = Object.values(req.files);
+          files = Object.values(req.files),
+          fileName = Object.keys(req.files),
+          extensions = ['jpg', 'jpeg', 'png'];
+
+    let counter = 1;
     
     orderData.forEach(value => {
         if (!value) {
@@ -80,11 +84,31 @@ export const continueOrder = (req, res) => {
         }
     });
     
-    if (req.files || Object.keys(req.files).length > 0) {
-        
+    if (!files || Object.keys(files).length === 0) {
+        return;
+    } else {
+        files.forEach(file => {
+            const fileName = file.name.split('.');
+            const fileExtension = fileName[fileName.length - 1];
+
+            if (!extensions.includes(fileExtension)) {
+                return res.status(400).json({ error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG'});
+            }
+
+            const cloudRes = cloudinary.uploader.upload(file.tempFilePath);
+
+            const image = {
+                name: fileName[counter],
+                url: cloudRes.secure_url,
+                orderId: id,
+                publicId: cloudRes.public_id
+            };
+
+            counter++;
+
+            console.log(image);
+        });
     }
-          
-    return res.status(200).json({ response: 'OK' });
 } 
 
 export const uploadFiles = async (req, res) => {

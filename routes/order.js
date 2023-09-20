@@ -28,10 +28,10 @@ router.put('/continue/:orderId', [
     check('girlfriend_name', 'girlfriend_name lenght is invalid').isLength({max: 50}),
 
     check('boyfriend_email', 'boyfriend_email lenght is invalid').isLength({max: 50}),
-    check('boyfriend_email', 'boyfriend_email is invalid').isEmail(),
+    check('boyfriend_email', 'El correo de pareja 1 no es válido').isEmail(),
 
-    check('girlfriend_email', 'girlfriend_email lenght is invalid').isLength({max: 50}),
-    check('girlfriend_email', 'boyfriend_email is invalid').isEmail(),
+    check('girlfriend_email', 'asdasdasd').isLength({max: 50}),
+    check('girlfriend_email', 'El correo de pareja 2 no es válido').isEmail(),
 
     check('wedding_date', 'wedding_date lenght is invalid').isLength({max: 10}),
 

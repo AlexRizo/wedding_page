@@ -5,7 +5,7 @@ const validateExpress = (req, res, next) => {
 
     if (!validations.isEmpty()) {
         return res.status(400).json({
-            res: validations
+            errors: validations.errors
         });
     }
     
