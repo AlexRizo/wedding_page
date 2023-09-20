@@ -86,7 +86,9 @@ class Server {
         this.app.use(fileUpload({
             useTempFiles: true,
             tempFileDir: '/tmp/',
-            createParentPath: true
+            createParentPath: true,
+            // ? Tamaño actual que acepta el servidor: 5 MB = ((1024 * 5) * 1024);
+            limits: { fileSize: 5242880 }
         }));
     }
 

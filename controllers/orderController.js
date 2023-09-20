@@ -69,6 +69,24 @@ export const completeOrder = async(req, res) => {
     return res.render('home/form', { orderId: order.id });
 }
 
+// TODO: complete this method;
+export const continueOrder = (req, res) => {
+    const { id, ...orderData } = req.body,
+          files = Object.values(req.files);
+    
+    orderData.forEach(value => {
+        if (!value) {
+            return res.status(400).json({ error: 'Existen campos vacíos' })
+        }
+    });
+    
+    if (req.files || Object.keys(req.files).length > 0) {
+        
+    }
+          
+    return res.status(200).json({ response: 'OK' });
+} 
+
 export const uploadFiles = async (req, res) => {
     const { orderId, stepId, ...data } = req.body;
     let filePath = '', i = 0,  cloudRes, image, images = [];

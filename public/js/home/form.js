@@ -22,78 +22,95 @@
         }
     }
 
-    const getInputsValues = () => {
+    const getOrderData = () => {
         const inputs     = document.querySelectorAll('input')     || null,
               textsareas =  document.querySelectorAll('textarea') || null,
-              selects    =  document.querySelectorAll('select')   || null;
+              selects    =  document.querySelectorAll('select')   || null,
+              orderData  = new FormData();
 
-        const formData = new FormData();
+        let status = true;
 
-        const data = {};
-        let status = true, files = false;
-
+        // * Para inputs;
         if (inputs) {
             inputs.forEach(input => {
                 // ? Si es necesario añade más validaciones para distintos tipos de inputs;
                 if (input.type === 'file') {
-                    formData.append(input.name, { 1: input.name, 2: input.files[0].name});
-                    formData.append(`${ input.name }`, input.files[0]);
-                    files = true;
+                    orderData.append(input.name, { 1: input.name, 2: input.files[0].name});
+                    orderData.append(`${ input.name }`, input.files[0]);
                 } else if (input.type === 'date') {
-                    status = validateDate(input.value) ? true : false;
-                    data[input.name] = input.value;
+                    status = validateDate(input.value);
+                    orderData.append(input.name, input.value);
                 } else {
-                    data[input.name] = input.value;
+                    orderData.append(input.name, input.value);
                 }
             });
         }
 
+        // * Para textareas;
         if (textsareas) {
             textsareas.forEach(textarea => {
-                data[textarea.name] = textarea.value;
+                orderData.append(textarea.name, textarea.value);
             });
         }
 
+        // * Para selects;
         if (selects) {
             selects.forEach(select => {
-                data[select.name] = select.value;
+                orderData.append(select.name, select.value);
             });
         }
 
-        formData.append('stepId', stepId);
-        formData.append('orderId', orderId);
+        orderData.append('stepId', stepId);
 
-        return { data, formData, status, files };
+        return { orderData, status };
     }
 
     form.addEventListener ('submit', async(ev) => {
         ev.preventDefault();
         
-        const localRes = getInputsValues();
+        const orderData = getOrderData();
 
-        if (!localRes.status) {
+        if (!orderData.status) {
             return false;
         }
 
-        if (localRes.files) {
-            fetch(`${ url }/order/image/upload`, {
-                method: 'POST',
-                body: localRes.formData,
-                headers: {
-                    'tkn': localStorage.getItem('tkn')
-                }
-            })
-            .then(resp => resp.json())
-            .then(resp => {
-                if (resp.error) {
-                    return sendNotification('Ha ocurrido un error', resp.error);
-                }
+        // for (const pair of formDataEntries) {
+        //     const [key, value] = pair;
+        //     console.log(`Clave: ${key}, Valor: ${value}`);
+        //   }
 
-                return socket.emit('send-order-data', { data: localRes.data, images: resp.images });
-            });      
-        } else {
-            return socket.emit('send-order-data', localRes.data);
-        }
+        fetch(`${ url }/order/continue/${ orderId }`, {
+            method: 'PUT',
+            headers: {
+                'tkn': localStorage.getItem('tkn'),
+            },
+            body: orderData.orderData
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+        })
+        .catch(console.error);
+
+        // if (localRes.files) {
+        //     fetch(`${ url }/order/image/upload`, {
+        //         method: 'POST',
+        //         body: localRes.formData,
+        //         headers: {
+        //             'tkn': localStorage.getItem('tkn')
+        //         }
+        //     })
+        //     .then(resp => resp.json())
+        //     .then(resp => {
+        //         if (resp.error) {
+        //             return sendNotification('Ha ocurrido un error', resp.error);
+        //         }
+
+        //         return socket.emit('send-order-data', { data: localRes.data, images: resp.images });
+        //     });      
+        // } else {
+        //     return socket.emit('send-order-data', localRes.data);
+        // }
     });
 
     const formByStep = (title = 'Llena los datos', step = 0, data = {}) => {

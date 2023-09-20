@@ -30,7 +30,7 @@ const connectSocket = async() => {
         // localStorage.removeItem('tkn');
         // localStorage.removeItem('ur');
         // localStorage.removeItem('uid');
-        location.reload();
+        // location.reload();
     });
 }
 
