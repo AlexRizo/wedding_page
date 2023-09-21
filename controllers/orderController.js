@@ -15,7 +15,7 @@ cloudinary.config({
 });
 
 export const orderHome = (req, res) => {
-    return res.render('home/order')
+    return res.render('home/order');
 }
 
 export const createOrder = async(req, res) => {
@@ -31,11 +31,11 @@ export const createOrder = async(req, res) => {
         const user = await User.findOne({ where: { email } });
         
         if (!user) {
-            return res.status(404).json({response: 'No se ha encontrado el usuario'})
+            return res.status(404).json({response: 'No se ha encontrado el usuario'});
         }
         
         if (!description) {
-            order.description = 'Tu pedido aún se encuentra en estado pendiente. Completa el formulario para poder recibir tu pedido.'
+            order.description = 'Tu pedido aún se encuentra en estado pendiente. Completa el formulario para poder recibir tu pedido.';
         }
         
         order.userId = user.id;
@@ -70,44 +70,54 @@ export const completeOrder = async(req, res) => {
 }
 
 // TODO: complete this method;
-export const continueOrder = (req, res) => {
-    const { id, ...orderData } = req.body,
+export const continueOrder = async(req, res) => {
+    const { id, stepId, ...orderData } = req.body,
           files = Object.values(req.files),
-          fileName = Object.keys(req.files),
+          values = Object.values(orderData),
+          filesName = Object.keys(req.files),
           extensions = ['jpg', 'jpeg', 'png'];
 
     let counter = 1;
-    
-    orderData.forEach(value => {
+
+    for (const value of values) {
         if (!value) {
             return res.status(400).json({ error: 'Existen campos vacíos' })
         }
-    });
-    
-    if (!files || Object.keys(files).length === 0) {
-        return;
-    } else {
-        files.forEach(file => {
-            const fileName = file.name.split('.');
-            const fileExtension = fileName[fileName.length - 1];
-
-            if (!extensions.includes(fileExtension)) {
-                return res.status(400).json({ error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG'});
+    }
+    try {
+        if (!files || Object.keys(files).length === 0) {
+            return;
+        } else {
+            for (const file of files) {
+                const fileName = file.name.split('.');
+                const fileExtension = fileName[fileName.length - 1];
+        
+                if (!extensions.includes(fileExtension)) {
+                    return res.status(400).json({ error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG' });
+                }
             }
 
-            const cloudRes = cloudinary.uploader.upload(file.tempFilePath);
-
-            const image = {
-                name: fileName[counter],
-                url: cloudRes.secure_url,
-                orderId: id,
-                publicId: cloudRes.public_id
-            };
-
-            counter++;
-
-            console.log(image);
-        });
+            stepId += 1;
+            // await Order.update(orderData, { where: { id } });
+            return;
+            files.forEach(async file => {
+                const cloudRes = await cloudinary.uploader.upload(file.tempFilePath);
+    
+                const image = {
+                    name: filesName[counter],
+                    url: cloudRes.secure_url,
+                    orderId: id,
+                    publicId: cloudRes.public_id
+                };
+    
+                await Image.create(image);
+    
+                counter++;
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: 'Ha ocurrido un error en el servidor -{ 500 }-' });
     }
 } 
 

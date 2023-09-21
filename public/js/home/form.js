@@ -36,7 +36,7 @@
                 // ? Si es necesario añade más validaciones para distintos tipos de inputs;
                 if (input.type === 'file') {
                     orderData.append(input.name, { 1: input.name, 2: input.files[0].name});
-                    orderData.append(`${ input.name }`, input.files[0]);
+                    orderData.append(input.name, input.files[0]);
                 } else if (input.type === 'date') {
                     status = validateDate(input.value);
                     orderData.append(input.name, input.value);
@@ -74,11 +74,6 @@
             return false;
         }
 
-        // for (const pair of formDataEntries) {
-        //     const [key, value] = pair;
-        //     console.log(`Clave: ${key}, Valor: ${value}`);
-        //   }
-
         fetch(`${ url }/order/continue/${ orderId }`, {
             method: 'PUT',
             headers: {
@@ -87,19 +82,23 @@
             body: orderData.orderData
         })
         .then(response => response.json())
-        .then((errors = null, response = null)=> {
-            if (errors) {
+        .then(({ expressErrors = null, error = null, response = null })=> {
+            if (expressErrors) {
                 let errorString = '';
                 
-                errors.errors.forEach(error => {
-                    errorString += `${ error.msg } <br>`;
+                expressErrors.forEach($error => {
+                    errorString += `${ $error.msg } <br>`;
                 });
 
-                console.error(errors);
+                console.error(expressErrors);
                 return sendNotification('Campos inválidos', errorString);
+            } else if (error) {
+                console.error(error);
+                return sendNotification('Ha ocurrido un error', error)
             }
 
-            console.log(response);
+            // socket.emit('get-actuallly-step', orderId);
+            return sendNotification('Datos enviados', response);
         })
         .catch(console.error);
     });
@@ -375,26 +374,6 @@
                 break;
         }
     });
-
-    socket.on('error', (images = []) => {
-        if (images) {
-            fetch(`${ url }/cloudinary/images/delete`, {
-                method: 'DELETE',
-                body: JSON.stringify({ images }),
-                headers: {
-                    'tkn': localStorage.getItem('tkn'),
-                    'Content-Type': 'application/json'
-                },
-            })
-            .then(response => response.json()
-            .then(response => {
-                console.log(response);
-                alert(response);
-            })
-            .catch(console.error));
-        }
-        return sendNotification('Ha ocurrido un error', 'Algunos datos son inválidos o exceden el límite establecido');
-    })
 
     socket.on('data-saved', (response) => {
         return sendNotification('Datos enviados', `Se han enviado los datos correctamente.`)

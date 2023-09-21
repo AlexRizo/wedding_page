@@ -88,7 +88,7 @@ class Server {
             tempFileDir: '/tmp/',
             createParentPath: true,
             // ? Tamaño actual que acepta el servidor: 5 MB = ((1024 * 5) * 1024);
-            limits: { fileSize: 5242880 }
+            limits: { fileSize: process.env.MAX_FILE_SIZE }
         }));
     }
 
