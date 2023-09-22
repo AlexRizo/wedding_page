@@ -77,29 +77,34 @@ export const continueOrder = async(req, res) => {
           filesName = Object.keys(req.files),
           extensions = ['jpg', 'jpeg', 'png'];
 
-    let counter = 1;
+    let counter = 0;
 
     for (const value of values) {
         if (!value) {
             return res.status(400).json({ error: 'Existen campos vacíos' })
         }
     }
-    try {
-        if (!files || Object.keys(files).length === 0) {
-            return;
-        } else {
-            for (const file of files) {
-                const fileName = file.name.split('.');
-                const fileExtension = fileName[fileName.length - 1];
-        
-                if (!extensions.includes(fileExtension)) {
-                    return res.status(400).json({ error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG' });
-                }
-            }
 
-            stepId += 1;
-            // await Order.update(orderData, { where: { id } });
-            return;
+    if (!files || Object.keys(files).length === 0) {
+        await Order.update(orderData, { where: { id } });
+
+        return res.status(200).json({ response: 'La información ha sido enviada' });
+    } else {
+        for (const file of files) {
+            const fileName = file.name.split('.');
+            const fileExtension = fileName[fileName.length - 1];
+    
+            if (!extensions.includes(fileExtension)) {
+                return res.status(400).json({ error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG' });
+            } else if (file.size > process.env.MAX_FILE_SIZE) {
+                return res.status(400).json({ error: 'El tamaño máximo permitido de los archivos es de 5 MB' });
+            }
+        }
+
+        // ? Aumentamos el stepId;
+        orderData.stepId = parseInt(stepId) + 1;
+
+        try {
             files.forEach(async file => {
                 const cloudRes = await cloudinary.uploader.upload(file.tempFilePath);
     
@@ -113,11 +118,15 @@ export const continueOrder = async(req, res) => {
                 await Image.create(image);
     
                 counter++;
-            });
+            });     
+        } catch (error) {
+            console.log('ERROR: ', error);
+            return res.status(500).json({ error: 'Ha ocurrido un error en el servidor -{ 500 }-' });
         }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ error: 'Ha ocurrido un error en el servidor -{ 500 }-' });
+
+        await Order.update(orderData, { where: { id } });
+
+        return res.status(200).json({ response: 'La información ha sido enviada' });
     }
 } 
 
@@ -129,7 +138,6 @@ export const uploadFiles = async (req, res) => {
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).json({ error: 'No se han recibido archivos.' });
-            // return res.status(200).json({ status });
         }
             
         const files = Object.values(req.files);

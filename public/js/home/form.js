@@ -94,10 +94,10 @@
                 return sendNotification('Campos inválidos', errorString);
             } else if (error) {
                 console.error(error);
-                return sendNotification('Ha ocurrido un error', error)
+                return sendNotification('Ha ocurrido un error', error);
             }
 
-            // socket.emit('get-actuallly-step', orderId);
+            socket.emit('get-actuallly-step', orderId);
             return sendNotification('Datos enviados', response);
         })
         .catch(console.error);
@@ -206,7 +206,7 @@
             </div>
             <div class="mb-3">
                 <label for="church_references">Referencias de la iglesia</label>
-                <textarea class="form-control" placeholder="Referencias de cómo llegar..." id="church_references" name="church_references" style="height: 100px"></textarea>
+                <textarea required class="form-control" placeholder="Referencias de cómo llegar..." id="church_references" name="church_references" style="height: 100px"></textarea>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -224,12 +224,16 @@
                 <input required type="time" class="form-control" id="event_time" name="event_time">
             </div>
             <div class="mb-3">
+                <label for="event_photo" class="form-label">Foto del lugar del evento</label>
+                <input required class="form-control" type="file" id="event_photo" name="event_photo">
+            </div>
+            <div class="mb-3">
                 <label for="event_location" class="form-label">Ubicación del evento</label>
                 <input required type="text" class="form-control" id="event_location" name="event_location" maxLength="100">
             </div>
             <div class="mb-3">
                 <label for="event_references">Referencias delugar del evento</label>
-                <textarea class="form-control" placeholder="Referencias de cómo llegar..." id="event_references" name="event_references" style="height: 100px" maxLength="200"></textarea>
+                <textarea required class="form-control" placeholder="Referencias de cómo llegar..." id="event_references" name="event_references" style="height: 100px" maxLength="200"></textarea>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -251,7 +255,7 @@
                     <label for="ladies" class="form-label">Dama de compaía 3</label>
                     <input required type="text" class="form-control" id="ladies" name="ladies">
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-ladies">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="$addInputTo('ladies')">Añadir Acompañante</button>
             </div>
             <div class="gentlemen">
                 <div class="mb-3">
@@ -266,7 +270,7 @@
                     <label for="gentlemen" class="form-label">Caballero de compaía 3</label>
                     <input required type="text" class="form-control" id="gentlemen" name="gentlemen">
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-gentleman">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-gentleman" onclick="$addInputTo('gentlemen')">Añadir Acompañante</button>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -340,6 +344,24 @@
     
     }
 
+    const addInputTo = (origin = '') => {
+        switch (origin) {
+            case 'ladies':
+                const ladiesDiv = document.querySelector('.ladies');
+                const divInput = document.createElement('div');
+                
+                break;
+            case 'gentlemen':
+                const gentlemenDiv = document.querySelector('.gentlemen');
+                console.log(gentlemenDiv);
+                break;
+        
+            default:
+                alert('null');
+                break;
+        }
+    }
+
     socket.emit('get-actuallly-step', orderId);
 
     socket.on('set-actuallly-step', (orderStep) => {
@@ -378,4 +400,7 @@
     socket.on('data-saved', (response) => {
         return sendNotification('Datos enviados', `Se han enviado los datos correctamente.`)
     });
-})();
+
+    // ? Exports:
+    window.$addInputTo = addInputTo;
+}) ();
