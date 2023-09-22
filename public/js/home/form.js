@@ -244,33 +244,33 @@
         const step5 =  `
             <div class="ladies">
                 <div class="mb-3">
-                    <label for="ladies" class="form-label">Dama de compaía 1</label>
-                    <input required type="text" class="form-control" id="ladies" name="ladies">
+                    <label for="ladie" class="form-label">Dama de compaía</label>
+                    <input required type="text" class="form-control" id="ladie" name="ladie">
                 </div>
                 <div class="mb-3">
-                    <label for="ladies" class="form-label">Dama de compaía 2</label>
-                    <input required type="text" class="form-control" id="ladies" name="ladies">
+                    <label for="ladie" class="form-label">Dama de compaía</label>
+                    <input required type="text" class="form-control" id="ladie" name="ladie">
                 </div>
                 <div class="mb-3">
-                    <label for="ladies" class="form-label">Dama de compaía 3</label>
-                    <input required type="text" class="form-control" id="ladies" name="ladies">
+                    <label for="ladie" class="form-label">Dama de compaía</label>
+                    <input required type="text" class="form-control" id="ladie" name="ladie">
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="$addInputTo('ladies')">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies')">Añadir Acompañante</button>
             </div>
             <div class="gentlemen">
                 <div class="mb-3">
-                    <label for="gentlemen" class="form-label">Caballero de compaía 1</label>
-                    <input required type="text" class="form-control" id="gentlemen" name="gentlemen">
+                    <label for="gentleman" class="form-label">Caballero de compaía</label>
+                    <input required type="text" class="form-control" id="gentleman" name="gentleman">
                 </div>
                 <div class="mb-3">
-                    <label for="gentlemen" class="form-label">Caballero de compaía 2</label>
-                    <input required type="text" class="form-control" id="gentlemen" name="gentlemen">
+                    <label for="gentleman" class="form-label">Caballero de compaía</label>
+                    <input required type="text" class="form-control" id="gentleman" name="gentleman">
                 </div>
                 <div class="mb-3">
-                    <label for="gentlemen" class="form-label">Caballero de compaía 3</label>
-                    <input required type="text" class="form-control" id="gentlemen" name="gentlemen">
+                    <label for="gentleman" class="form-label">Caballero de compaía</label>
+                    <input required type="text" class="form-control" id="gentleman" name="gentleman">
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-gentleman" onclick="$addInputTo('gentlemen')">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen')">Añadir Acompañante</button>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -344,12 +344,18 @@
     
     }
 
-    const addInputTo = (origin = '') => {
+    const addInputTo = (origin = '', subject = '', id_name = '') => {
+        const divInput = `
+            <div class="mb-3">
+                <label for="${ id_name }" class="form-label">${ subject } de compaía</label>
+                <input required type="text" class="form-control" id="${ id_name }" name="${ id_name }">
+            </div>
+        `;
+
         switch (origin) {
             case 'ladies':
                 const ladiesDiv = document.querySelector('.ladies');
-                const divInput = document.createElement('div');
-                
+                divInput.setAttribute('name', 'ladie')
                 break;
             case 'gentlemen':
                 const gentlemenDiv = document.querySelector('.gentlemen');
@@ -402,5 +408,5 @@
     });
 
     // ? Exports:
-    window.$addInputTo = addInputTo;
+    window.addInputTo = addInputTo;
 }) ();

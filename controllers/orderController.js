@@ -116,6 +116,7 @@ export const continueOrder = async(req, res) => {
                 };
     
                 await Image.create(image);
+
     
                 counter++;
             });     
