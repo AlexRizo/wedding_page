@@ -72,27 +72,47 @@ export const completeOrder = async(req, res) => {
 // TODO: complete this method;
 export const continueOrder = async(req, res) => {
     const { id, stepId, ...orderData } = req.body,
-          files = Object.values(req.files),
-          values = Object.values(orderData),
-          filesName = Object.keys(req.files),
+          values     = Object.values(orderData),
           extensions = ['jpg', 'jpeg', 'png'];
 
     let counter = 0;
 
+    if (stepId == 5) {
+        let LCounter = 1, GCounter = 1;
+
+        for (const ladie of orderData.ladies) {
+            console.log({ name: ladie, number: LCounter});
+            LCounter++;
+        }
+
+        for (const gentleman of orderData.gentlemen) {
+            console.log({ name: gentleman, number: GCounter});
+            GCounter++;
+        }
+
+        return res.status(200).json({ error: 'response 200' });
+    }
+
+    // ? Aumentamos el stepId;
+    orderData.stepId = parseInt(stepId) + 1;
+
     for (const value of values) {
         if (!value) {
-            return res.status(400).json({ error: 'Existen campos vacíos' })
+            return res.status(400).json({ error: 'Existen campos vacíos' });
         }
     }
 
-    if (!files || Object.keys(files).length === 0) {
+    if (Object.keys(files).length === 0) {
+        
         await Order.update(orderData, { where: { id } });
 
         return res.status(200).json({ response: 'La información ha sido enviada' });
     } else {
+        const files = Object.values(req.files);
+              
         for (const file of files) {
-            const fileName = file.name.split('.');
-            const fileExtension = fileName[fileName.length - 1];
+            const fileName      = file.name.split('.'),
+                  fileExtension = fileName[fileName.length - 1];
     
             if (!extensions.includes(fileExtension)) {
                 return res.status(400).json({ error: 'La extensión del archivo no es válida. Extensiones permitidas: JPG, JPEG, PNG' });
@@ -101,10 +121,9 @@ export const continueOrder = async(req, res) => {
             }
         }
 
-        // ? Aumentamos el stepId;
-        orderData.stepId = parseInt(stepId) + 1;
-
         try {
+            const filesName  = Object.keys(req.files);
+            
             files.forEach(async file => {
                 const cloudRes = await cloudinary.uploader.upload(file.tempFilePath);
     
@@ -117,7 +136,6 @@ export const continueOrder = async(req, res) => {
     
                 await Image.create(image);
 
-    
                 counter++;
             });     
         } catch (error) {

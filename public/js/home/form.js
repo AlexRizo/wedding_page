@@ -41,6 +41,7 @@
                     status = validateDate(input.value);
                     orderData.append(input.name, input.value);
                 } else {
+                    console.log({name: input.name, value: input.value});
                     orderData.append(input.name, input.value);
                 }
             });
@@ -242,35 +243,39 @@
         `;
 
         const step5 =  `
-            <div class="ladies">
-                <div class="mb-3">
-                    <label for="ladie" class="form-label">Dama de compaía</label>
-                    <input required type="text" class="form-control" id="ladie" name="ladie">
+            <div class="form-ladies">
+                <div class="ladies">
+                    <div class="mb-3">
+                        <label for="ladie" class="form-label">Dama de compaía</label>
+                        <input required type="text" class="form-control" id="ladie" name="ladies">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ladie" class="form-label">Dama de compaía</label>
+                        <input required type="text" class="form-control" id="ladie" name="ladies">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ladie" class="form-label">Dama de compaía</label>
+                        <input required type="text" class="form-control" id="ladie" name="ladies">
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="ladie" class="form-label">Dama de compaía</label>
-                    <input required type="text" class="form-control" id="ladie" name="ladie">
-                </div>
-                <div class="mb-3">
-                    <label for="ladie" class="form-label">Dama de compaía</label>
-                    <input required type="text" class="form-control" id="ladie" name="ladie">
-                </div>
-                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies')">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies', 'Dama', 'ladie')">Añadir Acompañante</button>
             </div>
-            <div class="gentlemen">
-                <div class="mb-3">
-                    <label for="gentleman" class="form-label">Caballero de compaía</label>
-                    <input required type="text" class="form-control" id="gentleman" name="gentleman">
+            <div class="form-gentlemen">
+                <div class="gentlemen">
+                    <div class="mb-3">
+                        <label for="gentleman" class="form-label">Caballero de compaía</label>
+                        <input required type="text" class="form-control" id="gentleman" name="gentlemen">
+                    </div>
+                    <div class="mb-3">
+                        <label for="gentleman" class="form-label">Caballero de compaía</label>
+                        <input required type="text" class="form-control" id="gentleman" name="gentlemen">
+                    </div>
+                    <div class="mb-3">
+                        <label for="gentleman" class="form-label">Caballero de compaía</label>
+                        <input required type="text" class="form-control" id="gentleman" name="gentlemen">
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="gentleman" class="form-label">Caballero de compaía</label>
-                    <input required type="text" class="form-control" id="gentleman" name="gentleman">
-                </div>
-                <div class="mb-3">
-                    <label for="gentleman" class="form-label">Caballero de compaía</label>
-                    <input required type="text" class="form-control" id="gentleman" name="gentleman">
-                </div>
-                <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen')">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen', 'Caballero', 'gentleman')">Añadir Acompañante</button>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -345,25 +350,28 @@
     }
 
     const addInputTo = (origin = '', subject = '', id_name = '') => {
-        const divInput = `
-            <div class="mb-3">
-                <label for="${ id_name }" class="form-label">${ subject } de compaía</label>
-                <input required type="text" class="form-control" id="${ id_name }" name="${ id_name }">
-            </div>
+        const divInput = document.createElement('div');
+        const input = `
+        <label for="${ id_name }" class="form-label">${ subject } de compaía</label>
+        <input type="text" class="form-control" id="${ id_name }" name="${ id_name }">
         `;
+        
+        divInput.classList.add('mb-3');
+        divInput.innerHTML = input;
 
         switch (origin) {
             case 'ladies':
                 const ladiesDiv = document.querySelector('.ladies');
-                divInput.setAttribute('name', 'ladie')
+                ladiesDiv.appendChild(divInput);
                 break;
+
             case 'gentlemen':
                 const gentlemenDiv = document.querySelector('.gentlemen');
-                console.log(gentlemenDiv);
+                gentlemenDiv.appendChild(divInput);
                 break;
         
             default:
-                alert('null');
+                alert('Bebé, lo que te pido, ven, dame lo que te exijo.');
                 break;
         }
     }
