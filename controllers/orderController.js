@@ -2,6 +2,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import * as dotenv from 'dotenv'
 
 import Order from "../models/order.js";
+import Ladie from "../models/ladie.js";
+import Gentleman from "../models/gentleman.js";
 import User from "../models/user.js";
 import Image from '../models/image.js';
 
@@ -78,19 +80,35 @@ export const continueOrder = async(req, res) => {
     let counter = 0;
 
     if (stepId == 5) {
-        let LCounter = 1, GCounter = 1;
+        let LCounter = 1, GCounter = 1, ladies = [], gentlemen = [];
 
         for (const ladie of orderData.ladies) {
-            console.log({ name: ladie, number: LCounter});
+            if (ladie) {
+                ladies.push({name: ladie, number: LCounter, orderId: id});
+            }
             LCounter++;
         }
 
         for (const gentleman of orderData.gentlemen) {
-            console.log({ name: gentleman, number: GCounter});
+            if (gentleman) {
+                gentlemen.push({name: gentleman, number: GCounter, orderId: id});          
+            }
             GCounter++;
         }
 
-        return res.status(200).json({ error: 'response 200' });
+        try {
+            await Ladie.bulkCreate(ladies);
+            await Gentleman.bulkCreate(gentlemen);
+            await Order.update({        // ? Aumentamos el stepId;
+                stepId: orderData.stepId = parseInt(stepId) + 1
+            },
+            { where: { id } })
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ error: 'Ha ocurrido un error en el servidor -{ 500 }-' })
+        }
+
+        return res.status(200).json({ response: 'La información ha sido enviada' });
     }
 
     // ? Aumentamos el stepId;

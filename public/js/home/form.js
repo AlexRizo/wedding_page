@@ -258,7 +258,7 @@
                         <input required type="text" class="form-control" id="ladie" name="ladies">
                     </div>
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies', 'Dama', 'ladie')">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies', 'Dama')">Añadir Acompañante</button>
             </div>
             <div class="form-gentlemen">
                 <div class="gentlemen">
@@ -275,7 +275,7 @@
                         <input required type="text" class="form-control" id="gentleman" name="gentlemen">
                     </div>
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen', 'Caballero', 'gentleman')">Añadir Acompañante</button>
+                <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen', 'Caballero')">Añadir Acompañante</button>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -349,11 +349,11 @@
     
     }
 
-    const addInputTo = (origin = '', subject = '', id_name = '') => {
+    const addInputTo = (origin = '', subject = '') => {
         const divInput = document.createElement('div');
         const input = `
-        <label for="${ id_name }" class="form-label">${ subject } de compaía</label>
-        <input type="text" class="form-control" id="${ id_name }" name="${ id_name }">
+            <label for="${ origin }" class="form-label">${ subject } de compaía</label>
+            <input type="text" class="form-control" id="${ origin }" name="${ origin }">
         `;
         
         divInput.classList.add('mb-3');

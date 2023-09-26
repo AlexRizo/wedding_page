@@ -42,7 +42,6 @@ const socketController = async(socket = new Socket(), io) => {
 
     // ! FORM PAGE SOCKETS:
     socket.on('get-actuallly-step', async(orderId) => {
-        console.log(orderId);
         return socket.emit('set-actuallly-step', await getActuallyStep(orderId));
     });
 
