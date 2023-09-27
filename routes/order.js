@@ -72,7 +72,7 @@ router.put('/continue/:orderId', [
 
     check('bank', 'bank lenght is too long').isLength({max: 20}),
 
-    check('history', 'history lenght is too long').isLength({max: 2000}),
+    check('history', 'history lenght is too long').isLength({max: 5000}),
 
     check('stepId', 'stepId is null').not().isEmpty(),
     check('orderId', 'orderId is null').not().isEmpty(),

@@ -247,15 +247,15 @@
                 <div class="ladies">
                     <div class="mb-3">
                         <label for="ladie" class="form-label">Dama de compaía</label>
-                        <input required type="text" class="form-control" id="ladie" name="ladies">
+                        <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
                     </div>
                     <div class="mb-3">
                         <label for="ladie" class="form-label">Dama de compaía</label>
-                        <input required type="text" class="form-control" id="ladie" name="ladies">
+                        <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
                     </div>
                     <div class="mb-3">
                         <label for="ladie" class="form-label">Dama de compaía</label>
-                        <input required type="text" class="form-control" id="ladie" name="ladies">
+                        <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
                     </div>
                 </div>
                 <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies', 'Dama')">Añadir Acompañante</button>
@@ -264,15 +264,15 @@
                 <div class="gentlemen">
                     <div class="mb-3">
                         <label for="gentleman" class="form-label">Caballero de compaía</label>
-                        <input required type="text" class="form-control" id="gentleman" name="gentlemen">
+                        <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
                     </div>
                     <div class="mb-3">
                         <label for="gentleman" class="form-label">Caballero de compaía</label>
-                        <input required type="text" class="form-control" id="gentleman" name="gentlemen">
+                        <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
                     </div>
                     <div class="mb-3">
                         <label for="gentleman" class="form-label">Caballero de compaía</label>
-                        <input required type="text" class="form-control" id="gentleman" name="gentlemen">
+                        <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
                     </div>
                 </div>
                 <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen', 'Caballero')">Añadir Acompañante</button>
@@ -286,27 +286,30 @@
         const step6 =  `
             <div class="mb-3">
                 <label for="men_clothes" class="form-label">Vestimenta en hombres</label>
-                <input required type="text" class="form-control" id="men_clothes" name="men_clothes">
+                <input required type="text" class="form-control" id="men_clothes" name="men_clothes" maxLength="100">
             </div>
             <div class="mb-3">
                 <label for="women_clothes" class="form-label">Vestimenta en mujeres</label>
-                <input required type="text" class="form-control" id="women_clothes" name="women_clothes">
+                <input required type="text" class="form-control" id="women_clothes" name="women_clothes" maxLength="100">
             </div>
             <div class="mb-3">
                 <label for="considerations">Consideraciones</label>
-                <textarea class="form-control" placeholder="Consideraciones en la vestimenta, asistencia de infantes, etc..." id="considerations" name="considerations" style="height: 100px"></textarea>
+                <textarea class="form-control" placeholder="Consideraciones en la vestimenta, asistencia de infantes, etc..." id="considerations" name="considerations" style="height: 100px" maxLength="200"></textarea>
             </div>
             <div class="mb-3">
                 <label for="gif_link" class="form-label">Link de lista de regalos</label>
-                <input required type="text" class="form-control" id="gif_link" name="gif_link">
+                <input required type="text" class="form-control" id="gif_link" name="gif_link" maxLength="100">
             </div>
             <div class="mb-3">
                 <label for="bank" class="form-label">Cuenta de banco</label>
-                <input required type="number" class="form-control" id="bank" name="bank">
+                <input required type="number" class="form-control" id="bank" name="bank" maxLength="20">
             </div>
             <div class="mb-3">
                 <label for="history">Nuestra historia</label>
-                <textarea class="form-control" placeholder="Su historia de amor..." id="history" name="history" style="height: 100px"></textarea>
+                <textarea class="form-control" oninput="getCounter()" placeholder="Su historia de amor..." id="history" name="history" style="height: 100px" maxLength="5000"></textarea>
+                <div class="text-end">
+                    <span class="text-secondary" id="historyCounter">5000</span>
+                </div>
             </div>
             <div class="col-12 mb-5">
                 <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
@@ -376,6 +379,21 @@
         }
     }
 
+    const getCounter = () => {
+        const input = document.getElementById('history'), 
+              divCounter = document.getElementById('historyCounter');
+
+        const maxLength = input.getAttribute('maxLength'),
+              inputContent = input.value.length,
+              counter = parseInt(maxLength) - inputContent;
+        
+        divCounter.innerText = counter;
+        
+        if (counter <= 0) {
+            input.classList.add('border-danger');
+        }
+    }
+
     socket.emit('get-actuallly-step', orderId);
 
     socket.on('set-actuallly-step', (orderStep) => {
@@ -417,4 +435,5 @@
 
     // ? Exports:
     window.addInputTo = addInputTo;
+    window.getCounter = getCounter;
 }) ();
