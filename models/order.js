@@ -123,7 +123,7 @@ Order.init(
             allowNull: true,
         },
         bank: {
-            type: new DataTypes.INTEGER,
+            type: new DataTypes.STRING(22),
             allowNull: true,
         },
         history: {

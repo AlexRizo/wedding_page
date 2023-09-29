@@ -40,6 +40,8 @@
                 } else if (input.type === 'date') {
                     status = validateDate(input.value);
                     orderData.append(input.name, input.value);
+                }else if (input.name === 'bank') {
+                    alert(`this is a bank info: ${input.value.replace(/\D/g, '')}`)
                 } else {
                     console.log({name: input.name, value: input.value});
                     orderData.append(input.name, input.value);
@@ -301,12 +303,12 @@
                 <input required type="text" class="form-control" id="gif_link" name="gif_link" maxLength="100">
             </div>
             <div class="mb-3">
-                <label for="bank" class="form-label">Cuenta de banco</label>
-                <input required type="number" class="form-control" id="bank" name="bank" maxLength="20">
+                <label for="bank" class="form-label">Número de tarjeta / Cuenta clave</label>
+                <input required type="text" class="form-control" id="bank" name="bank" maxLength="22" oninput="validCard(this)">
             </div>
             <div class="mb-3">
                 <label for="history">Nuestra historia</label>
-                <textarea class="form-control" oninput="getCounter()" placeholder="Su historia de amor..." id="history" name="history" style="height: 100px" maxLength="5000"></textarea>
+                <textarea class="form-control outline-danger" oninput="inputCounter(this, 'historyCounter')" placeholder="Su historia de amor..." id="history" name="history" style="height: 100px" maxLength="5000"></textarea>
                 <div class="text-end">
                     <span class="text-secondary" id="historyCounter">5000</span>
                 </div>
@@ -379,18 +381,28 @@
         }
     }
 
-    const getCounter = () => {
-        const input = document.getElementById('history'), 
-              divCounter = document.getElementById('historyCounter');
-
-        const maxLength = input.getAttribute('maxLength'),
-              inputContent = input.value.length,
-              counter = parseInt(maxLength) - inputContent;
+    const inputCounter = (input, tag) => {
+        const tagCounter = document.getElementById(tag),
+              maxLength = input.getAttribute('maxLength'),
+              counter = parseInt(maxLength) - input.value.length;
         
-        divCounter.innerText = counter;
+        tagCounter.innerText = counter;
         
         if (counter <= 0) {
-            input.classList.add('border-danger');
+            input.classList.add('border-warning', 'input-limit');
+        } else {
+            input.classList.remove('border-warning', 'input-limit');
+        }
+    }
+
+    const validCard = (input) => {
+        const invalidChar = input.value.replace(/\D/g, ''),
+              groups = invalidChar.match(/.{1,4}/g);
+
+        if (groups) {
+            input.value = groups.join('-');
+        } else {
+            input.value = '';
         }
     }
 
@@ -424,7 +436,7 @@
                 break;
 
             default:
-                sendNotification('Ha ocurrido un error desconocido.', 'Si el error persiste comunícate con nosotros.')
+                sendNotification('Ha ocurrido un error desconocido.', 'Si el error persiste comunícate con administración.')
                 break;
         }
     });
@@ -435,5 +447,6 @@
 
     // ? Exports:
     window.addInputTo = addInputTo;
-    window.getCounter = getCounter;
+    window.inputCounter = inputCounter;
+    window.validCard = validCard;
 }) ();

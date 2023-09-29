@@ -112,7 +112,7 @@ export const continueOrder = async(req, res) => {
     }
 
     // ? Aumentamos el stepId;
-    orderData.stepId = parseInt(stepId) + 1;
+    orderData.stepId = parseInt(stepId) + 1 >= 7 ? stepId++ : stepId;
 
     for (const value of values) {
         if (!value) {
@@ -120,7 +120,7 @@ export const continueOrder = async(req, res) => {
         }
     }
 
-    if (Object.keys(files).length === 0) {
+    if (!req.files || Object.keys(req.files).length === 0) {
         
         await Order.update(orderData, { where: { id } });
 
