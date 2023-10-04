@@ -5,7 +5,7 @@
 
 .notification {
     transition: 1s;
-    position: absolute;
+    position: fixed;
     padding: 20px;
     background: var(--card-color);
     min-height: 100px;

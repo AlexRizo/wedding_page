@@ -41,7 +41,7 @@
                     status = validateDate(input.value);
                     orderData.append(input.name, input.value);
                 }else if (input.name === 'bank') {
-                    alert(`this is a bank info: ${input.value.replace(/\D/g, '')}`)
+                    orderData.append(input.name, input.value);
                 } else {
                     console.log({name: input.name, value: input.value});
                     orderData.append(input.name, input.value);
@@ -383,8 +383,8 @@
 
     const inputCounter = (input, tag) => {
         const tagCounter = document.getElementById(tag),
-              maxLength = input.getAttribute('maxLength'),
-              counter = parseInt(maxLength) - input.value.length;
+              maxLength  = input.getAttribute('maxLength'),
+              counter    = parseInt(maxLength) - input.value.length;
         
         tagCounter.innerText = counter;
         
@@ -397,8 +397,7 @@
 
     const validCard = (input) => {
         const invalidChar = input.value.replace(/\D/g, ''),
-              groups = invalidChar.match(/.{1,4}/g);
-
+              groups      = invalidChar.match(/.{1,4}/g);
         if (groups) {
             input.value = groups.join('-');
         } else {

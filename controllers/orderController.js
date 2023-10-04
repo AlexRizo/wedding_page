@@ -99,7 +99,8 @@ export const continueOrder = async(req, res) => {
         try {
             await Ladie.bulkCreate(ladies);
             await Gentleman.bulkCreate(gentlemen);
-            await Order.update({        // ? Aumentamos el stepId;
+            await Order.update({
+                // ? Aumentamos el stepId;
                 stepId: orderData.stepId = parseInt(stepId) + 1
             },
             { where: { id } })
@@ -112,7 +113,8 @@ export const continueOrder = async(req, res) => {
     }
 
     // ? Aumentamos el stepId;
-    orderData.stepId = parseInt(stepId) + 1 >= 7 ? stepId++ : stepId;
+    // orderData.stepId = parseInt(stepId) + 1 >= 7 ? stepId++ : stepId;
+    orderData.setpId = parseInt(stepId) + 1;
 
     for (const value of values) {
         if (!value) {
@@ -123,6 +125,8 @@ export const continueOrder = async(req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         
         await Order.update(orderData, { where: { id } });
+
+        console.log(orderData);
 
         return res.status(200).json({ response: 'La información ha sido enviada' });
     } else {
