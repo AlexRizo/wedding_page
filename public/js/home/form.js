@@ -107,250 +107,252 @@
     });
 
     const formByStep = (title = 'Llena los datos', step = 0, data = {}) => {
-        const step1 =  `
-            <div class="col-md-6 mb-3">
-                <label for="boyfriend" class="form-label">Nombre de la pareja 1</label>
-                <input required type="text" class="form-control" id="boyfriend" name="boyfriend_name" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="girlfriend" class="form-label">Nombre de la pareja 2</label>
-                <input required type="text" class="form-control" id="girlfriend" name="girlfriend_name" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="boyfriend_email" class="form-label">Correo de la pareja 1</label>
-                <input required type="email" class="form-control" id="boyfriend_email" name="boyfriend_email" placeholder="example@email.com">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="girlfriend_email" class="form-label">Correo de la pareja 2</label>
-                <input required type="email" class="form-control" id="girlfriend_email" name="girlfriend_email" placeholder="example@email.com">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="boyfriend_photo" class="form-label">Foto de la pareja 1</label>
-                <input required class="form-control" type="file" id="boyfriend_photo" name="boyfriend_photo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="girlfriend_photo" class="form-label">Foto de la pareja 2</label>
-                <input required class="form-control" type="file" id="girlfriend_photo" name="girlfriend_photo">
-            </div>
-            <div class="col-12 mb-4">
-                <label for="wedding_date" class="form-label">Fecha de la boda:</label>
-                <input required type="date" class="form-control" id="wedding_date" name="wedding_date">
-            </div>
-            <div class="col-12 mb-5">
-                <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
-                <button type="submit" class="btn btn-dark btn-save">Guardar</button>
-            </div>
-        `;
-
-        const step2 =  `
-            <div class="col-md-6 mb-3">
-                <label for="godfather" class="form-label">Nombre del padrino</label>
-                <input required type="text" class="form-control" id="godfather" name="godfather" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="godmother" class="form-label">Nombre de la madrina</label>
-                <input required type="text" class="form-control" id="godmother" name="godmother" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="godfather_photo" class="form-label">Foto del padrino</label>
-                <input required class="form-control" type="file" id="godfather_photo" name="godfather_photo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="godmother_photo" class="form-label">Foto de la madrina</label>
-                <input required class="form-control" type="file" id="godmother_photo" name="godmother_photo">
-            </div>
-            <h5 class="my-3">Datos de los padres de la pareja</h5>
-            <div class="col-md-6 mb-3">
-                <label for="boyfriend_father" class="form-label">Padre de la pareja 1</label>
-                <input required type="text" class="form-control" id="boyfriend_father" name="boyfriend_father" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="boyfriend_mother" class="form-label">Madre de la pareja 1</label>
-                <input required type="text" class="form-control" id="boyfriend_mother" name="boyfriend_mother" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="girlfriend_father" class="form-label">Padre de la pareja 2</label>
-                <input required type="text" class="form-control" id="girlfriend_father" name="girlfriend_father" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="girlfriend_mother" class="form-label">Madre de la pareja 2</label>
-                <input required type="text" class="form-control" id="girlfriend_mother" name="girlfriend_mother" placeholder="Nombre completo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="boyfriend_parents_photo" class="form-label">Foto de los padres de la pareja 1</label>
-                <input required class="form-control" type="file" id="boyfriend_parents_photo" name="boyfriend_parents_photo">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="girlfriend_parents_photo" class="form-label">Foto de los padres de la pareja 2</label>
-                <input required class="form-control" type="file" id="girlfriend_parents_photo" name="girlfriend_parents_photo">
-            </div>
-            <div class="col-12 mb-5">
-                <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
-                <button type="submit" class="btn btn-dark btn-save">Guardar</button>
-            </div>
-        `;
-
-        const step3 =  `
-            <div class="col-md-6 mb-3">
-                <label for="church" class="form-label">Iglesia</label>
-                <input required type="text" class="form-control" id="church" name="church">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="church_time" class="form-label">Hora de la boda</label>
-                <input required type="time" class="form-control" id="church_time" name="church_time">
-            </div>
-            <div class="mb-3">
-                <label for="church_photo" class="form-label">Foto de la iglesia</label>
-                <input required class="form-control" type="file" id="church_photo" name="church_photo">
-            </div>
-            <div class="mb-3">
-                <label for="church_location" class="form-label">Ubicación de la iglesia</label>
-                <input required type="text" class="form-control" id="church_location" name="church_location" placeholder="Ubicación / Link">
-            </div>
-            <div class="mb-3">
-                <label for="church_references">Referencias de la iglesia</label>
-                <textarea required class="form-control" placeholder="Referencias de cómo llegar..." id="church_references" name="church_references" style="height: 100px"></textarea>
-            </div>
-            <div class="col-12 mb-5">
-                <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
-                <button type="submit" class="btn btn-dark btn-save">Guardar</button>
-            </div>
-        `;
-
-        const step4 =  `
-            <div class="col-md-6 mb-3">
-                <label for="event" class="form-label">Lugar del evento</label>
-                <input required type="text" class="form-control" id="event" name="event" maxLength="50">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="event_time" class="form-label">Hora del evento</label>
-                <input required type="time" class="form-control" id="event_time" name="event_time">
-            </div>
-            <div class="mb-3">
-                <label for="event_photo" class="form-label">Foto del lugar del evento</label>
-                <input required class="form-control" type="file" id="event_photo" name="event_photo">
-            </div>
-            <div class="mb-3">
-                <label for="event_location" class="form-label">Ubicación del evento</label>
-                <input required type="text" class="form-control" id="event_location" name="event_location" maxLength="100">
-            </div>
-            <div class="mb-3">
-                <label for="event_references">Referencias delugar del evento</label>
-                <textarea required class="form-control" placeholder="Referencias de cómo llegar..." id="event_references" name="event_references" style="height: 100px" maxLength="200"></textarea>
-            </div>
-            <div class="col-12 mb-5">
-                <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
-                <button type="submit" class="btn btn-dark btn-save">Guardar</button>
-            </div>
-        `;
-
-        const step5 =  `
-            <div class="form-ladies">
-                <div class="ladies">
-                    <div class="mb-3">
-                        <label for="ladie" class="form-label">Dama de compaía</label>
-                        <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
+        const steps = {
+            1: `            
+                <div class="col-md-6 mb-3">
+                    <label for="boyfriend" class="form-label">Nombre de la pareja 1</label>
+                    <input required type="text" class="form-control" id="boyfriend" name="boyfriend_name" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="girlfriend" class="form-label">Nombre de la pareja 2</label>
+                    <input required type="text" class="form-control" id="girlfriend" name="girlfriend_name" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="boyfriend_email" class="form-label">Correo de la pareja 1</label>
+                    <input required type="email" class="form-control" id="boyfriend_email" name="boyfriend_email" placeholder="example@email.com">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="girlfriend_email" class="form-label">Correo de la pareja 2</label>
+                    <input required type="email" class="form-control" id="girlfriend_email" name="girlfriend_email" placeholder="example@email.com">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="boyfriend_photo" class="form-label">Foto de la pareja 1</label>
+                    <input required class="form-control" type="file" id="boyfriend_photo" name="boyfriend_photo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="girlfriend_photo" class="form-label">Foto de la pareja 2</label>
+                    <input required class="form-control" type="file" id="girlfriend_photo" name="girlfriend_photo">
+                </div>
+                <div class="col-12 mb-4">
+                    <label for="wedding_date" class="form-label">Fecha de la boda:</label>
+                    <input required type="date" class="form-control" id="wedding_date" name="wedding_date">
+                </div>
+                <div class="col-12 mb-5">
+                    <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
+                    <button type="submit" class="btn btn-dark btn-save">Guardar</button>
+                </div>
+            `,
+            2: `
+                <div class="col-md-6 mb-3">
+                    <label for="godfather" class="form-label">Nombre del padrino</label>
+                    <input required type="text" class="form-control" id="godfather" name="godfather" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="godmother" class="form-label">Nombre de la madrina</label>
+                    <input required type="text" class="form-control" id="godmother" name="godmother" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="godfather_photo" class="form-label">Foto del padrino</label>
+                    <input required class="form-control" type="file" id="godfather_photo" name="godfather_photo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="godmother_photo" class="form-label">Foto de la madrina</label>
+                    <input required class="form-control" type="file" id="godmother_photo" name="godmother_photo">
+                </div>
+                <h5 class="my-3">Datos de los padres de la pareja</h5>
+                <div class="col-md-6 mb-3">
+                    <label for="boyfriend_father" class="form-label">Padre de la pareja 1</label>
+                    <input required type="text" class="form-control" id="boyfriend_father" name="boyfriend_father" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="boyfriend_mother" class="form-label">Madre de la pareja 1</label>
+                    <input required type="text" class="form-control" id="boyfriend_mother" name="boyfriend_mother" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="girlfriend_father" class="form-label">Padre de la pareja 2</label>
+                    <input required type="text" class="form-control" id="girlfriend_father" name="girlfriend_father" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="girlfriend_mother" class="form-label">Madre de la pareja 2</label>
+                    <input required type="text" class="form-control" id="girlfriend_mother" name="girlfriend_mother" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="boyfriend_parents_photo" class="form-label">Foto de los padres de la pareja 1</label>
+                    <input required class="form-control" type="file" id="boyfriend_parents_photo" name="boyfriend_parents_photo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="girlfriend_parents_photo" class="form-label">Foto de los padres de la pareja 2</label>
+                    <input required class="form-control" type="file" id="girlfriend_parents_photo" name="girlfriend_parents_photo">
+                </div>
+                <div class="col-12 mb-5">
+                    <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
+                    <button type="submit" class="btn btn-dark btn-save">Guardar</button>
+                </div>
+            `,
+            3: `
+                <div class="col-md-6 mb-3">
+                    <label for="church" class="form-label">Iglesia</label>
+                    <input required type="text" class="form-control" id="church" name="church">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="church_time" class="form-label">Hora de la boda</label>
+                    <input required type="time" class="form-control" id="church_time" name="church_time">
+                </div>
+                <div class="mb-3">
+                    <label for="church_photo" class="form-label">Foto de la iglesia</label>
+                    <input required class="form-control" type="file" id="church_photo" name="church_photo">
+                </div>
+                <div class="mb-3">
+                    <label for="church_location" class="form-label">Ubicación de la iglesia</label>
+                    <input required type="text" class="form-control" id="church_location" name="church_location" placeholder="Ubicación / Link">
+                </div>
+                <div class="mb-3">
+                    <label for="church_references">Referencias de la iglesia</label>
+                    <textarea required class="form-control" placeholder="Referencias de cómo llegar..." id="church_references" name="church_references" style="height: 100px"></textarea>
+                </div>
+                <div class="col-12 mb-5">
+                    <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
+                    <button type="submit" class="btn btn-dark btn-save">Guardar</button>
+                </div>
+            `,
+            4: `
+                <div class="col-md-6 mb-3">
+                    <label for="event" class="form-label">Lugar del evento</label>
+                    <input required type="text" class="form-control" id="event" name="event" maxLength="50">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="event_time" class="form-label">Hora del evento</label>
+                    <input required type="time" class="form-control" id="event_time" name="event_time">
+                </div>
+                <div class="mb-3">
+                    <label for="event_photo" class="form-label">Foto del lugar del evento</label>
+                    <input required class="form-control" type="file" id="event_photo" name="event_photo">
+                </div>
+                <div class="mb-3">
+                    <label for="event_location" class="form-label">Ubicación del evento</label>
+                    <input required type="text" class="form-control" id="event_location" name="event_location" maxLength="100">
+                </div>
+                <div class="mb-3">
+                    <label for="event_references">Referencias delugar del evento</label>
+                    <textarea required class="form-control" placeholder="Referencias de cómo llegar..." id="event_references" name="event_references" style="height: 100px" maxLength="200"></textarea>
+                </div>
+                <div class="col-12 mb-5">
+                    <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
+                    <button type="submit" class="btn btn-dark btn-save">Guardar</button>
+                </div>
+            `,
+            5: `
+                <div class="form-ladies">
+                    <div class="ladies">
+                        <div class="mb-3">
+                            <label for="ladie" class="form-label">Dama de compaía</label>
+                            <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ladie" class="form-label">Dama de compaía</label>
+                            <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ladie" class="form-label">Dama de compaía</label>
+                            <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="ladie" class="form-label">Dama de compaía</label>
-                        <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
+                    <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies', 'Dama')">Añadir Acompañante</button>
+                </div>
+                <div class="form-gentlemen">
+                    <div class="gentlemen">
+                        <div class="mb-3">
+                            <label for="gentleman" class="form-label">Caballero de compaía</label>
+                            <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
+                        </div>
+                        <div class="mb-3">
+                            <label for="gentleman" class="form-label">Caballero de compaía</label>
+                            <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
+                        </div>
+                        <div class="mb-3">
+                            <label for="gentleman" class="form-label">Caballero de compaía</label>
+                            <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="ladie" class="form-label">Dama de compaía</label>
-                        <input required type="text" class="form-control" id="ladie" name="ladies" maxLength="50">
+                    <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen', 'Caballero')">Añadir Acompañante</button>
+                </div>
+                <div class="col-12 mb-5">
+                    <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
+                    <button type="submit" class="btn btn-dark btn-save">Guardar</button>
+                </div>
+            `,
+            6: `
+                <div class="mb-3">
+                    <label for="men_clothes" class="form-label">Vestimenta en hombres</label>
+                    <input required type="text" class="form-control" id="men_clothes" name="men_clothes" maxLength="100">
+                </div>
+                <div class="mb-3">
+                    <label for="women_clothes" class="form-label">Vestimenta en mujeres</label>
+                    <input required type="text" class="form-control" id="women_clothes" name="women_clothes" maxLength="100">
+                </div>
+                <div class="mb-3">
+                    <label for="considerations">Consideraciones</label>
+                    <textarea class="form-control" placeholder="Consideraciones en la vestimenta, asistencia de infantes, etc..." id="considerations" name="considerations" style="height: 100px" maxLength="200"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="gif_link" class="form-label">Link de lista de regalos</label>
+                    <input required type="text" class="form-control" id="gif_link" name="gif_link" maxLength="100">
+                </div>
+                <div class="mb-3">
+                    <label for="bank" class="form-label">Número de tarjeta / Cuenta clave</label>
+                    <input required type="text" class="form-control" id="bank" name="bank" maxLength="22" oninput="validCard(this)">
+                </div>
+                <div class="mb-3">
+                    <label for="history">Nuestra historia</label>
+                    <textarea class="form-control outline-danger" oninput="inputCounter(this, 'historyCounter')" placeholder="Su historia de amor..." id="history" name="history" style="height: 100px" maxLength="5000"></textarea>
+                    <div class="text-end">
+                        <span class="text-secondary" id="historyCounter">5000</span>
                     </div>
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-ladies" onclick="addInputTo('ladies', 'Dama')">Añadir Acompañante</button>
-            </div>
-            <div class="form-gentlemen">
-                <div class="gentlemen">
-                    <div class="mb-3">
-                        <label for="gentleman" class="form-label">Caballero de compaía</label>
-                        <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
-                    </div>
-                    <div class="mb-3">
-                        <label for="gentleman" class="form-label">Caballero de compaía</label>
-                        <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
-                    </div>
-                    <div class="mb-3">
-                        <label for="gentleman" class="form-label">Caballero de compaía</label>
-                        <input required type="text" class="form-control" id="gentleman" name="gentlemen" maxLength="50">
-                    </div>
+                <div class="col-12 mb-5">
+                    <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
+                    <button type="submit" class="btn btn-dark btn-save">Guardar</button>
                 </div>
-                <button type="button" class="mb-3 btn btn-dark add-gentlemen" onclick="addInputTo('gentlemen', 'Caballero')">Añadir Acompañante</button>
-            </div>
-            <div class="col-12 mb-5">
-                <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
-                <button type="submit" class="btn btn-dark btn-save">Guardar</button>
-            </div>
-        `;
-
-        const step6 =  `
-            <div class="mb-3">
-                <label for="men_clothes" class="form-label">Vestimenta en hombres</label>
-                <input required type="text" class="form-control" id="men_clothes" name="men_clothes" maxLength="100">
-            </div>
-            <div class="mb-3">
-                <label for="women_clothes" class="form-label">Vestimenta en mujeres</label>
-                <input required type="text" class="form-control" id="women_clothes" name="women_clothes" maxLength="100">
-            </div>
-            <div class="mb-3">
-                <label for="considerations">Consideraciones</label>
-                <textarea class="form-control" placeholder="Consideraciones en la vestimenta, asistencia de infantes, etc..." id="considerations" name="considerations" style="height: 100px" maxLength="200"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="gif_link" class="form-label">Link de lista de regalos</label>
-                <input required type="text" class="form-control" id="gif_link" name="gif_link" maxLength="100">
-            </div>
-            <div class="mb-3">
-                <label for="bank" class="form-label">Número de tarjeta / Cuenta clave</label>
-                <input required type="text" class="form-control" id="bank" name="bank" maxLength="22" oninput="validCard(this)">
-            </div>
-            <div class="mb-3">
-                <label for="history">Nuestra historia</label>
-                <textarea class="form-control outline-danger" oninput="inputCounter(this, 'historyCounter')" placeholder="Su historia de amor..." id="history" name="history" style="height: 100px" maxLength="5000"></textarea>
-                <div class="text-end">
-                    <span class="text-secondary" id="historyCounter">5000</span>
-                </div>
-            </div>
-            <div class="col-12 mb-5">
-                <!-- <button type="button" disabled class="btn btn-dark btn-back">Regresar</button> -->
-                <button type="submit" class="btn btn-dark btn-save">Guardar</button>
-            </div>
-        `;
+            `,
+            7: `<h1>Selecciona una invitación:</h1>`
+        };
         
         switch (step) {
             case 1:
-                form.innerHTML = step1;
+                form.innerHTML = steps[1];
                 break;
 
             case 2:
-                form.innerHTML = step2;
+                form.innerHTML = steps[2];
                 break;
 
             case 3:
-                form.innerHTML = step3;
+                form.innerHTML = steps[3];
                 break;
 
             case 4:
-                form.innerHTML = step4;
+                form.innerHTML = steps[4];
                 break;
 
             case 5:
-                form.innerHTML = step5;
+                form.innerHTML = steps[5];
                 break;
 
             case 6:
-                form.innerHTML = step6;
+                form.innerHTML = steps[6];
+                break;
+
+            case 7:
+                form.innerHTML = steps[7];
                 break;
         
             default:
-                sendNotification('Ha ocurrido un error desconocido.', 'Si el error persiste comunícate con nosotros.')
+                sendNotification('Ha ocurrido un error desconocido', 'Si el error persiste vuelve a iniciar sesión.')
                 break;
         }
 
         cardHeader.innerText = title;
-        cardTitle.innerText = `Paso ${ step } / 6`;
+        cardTitle.innerText = `Paso ${ step } / 7`;
     
     }
 
@@ -399,7 +401,7 @@
         const invalidChar = input.value.replace(/\D/g, ''),
               groups      = invalidChar.match(/.{1,4}/g);
         if (groups) {
-            input.value = groups.join('-');
+            input.value = groups.join(' ');
         } else {
             input.value = '';
         }
@@ -431,6 +433,10 @@
                 break;
 
             case 6:
+                formByStep(orderStep.name, orderStep.id)
+                break;
+
+            case 7:
                 formByStep(orderStep.name, orderStep.id)
                 break;
 

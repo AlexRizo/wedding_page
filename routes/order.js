@@ -70,7 +70,7 @@ router.put('/continue/:orderId', [
 
     check('gif_link', 'gif_link lenght is too long').isLength({max: 100}),
 
-    check('bank', 'bank lenght is too long').isLength({max: 20}),
+    check('bank', 'bank lenght is too long').isLength({max: 24}),
 
     check('history', 'history lenght is too long').isLength({max: 5000}),
 
