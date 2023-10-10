@@ -12,4 +12,12 @@
 
 .input-limit:focus {
     box-shadow: 0 0 0 0.25rem rgba(253, 189, 13, 0.25);
-};
+}
+
+.hover-effect {
+    transition: 1s;
+}
+
+.hover-effect:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0 0 15px;
+}

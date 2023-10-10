@@ -18,6 +18,10 @@ Layout.init(
             type: new DataTypes.STRING(1000),
             allowNull: false,
         },
+        layoutImage: {
+            type: DataTypes.INTEGER,
+            defaultValue: 1,
+        },
     },
     {
         tableName: 'layouts',

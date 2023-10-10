@@ -35,7 +35,7 @@
             inputs.forEach(input => {
                 // ? Si es necesario añade más validaciones para distintos tipos de inputs;
                 if (input.type === 'file') {
-                    orderData.append(input.name, { 1: input.name, 2: input.files[0].name});
+                    orderData.append(input.name, { 1: input.name, 2: input.files[0].name });
                     orderData.append(input.name, input.files[0]);
                 } else if (input.type === 'date') {
                     status = validateDate(input.value);
@@ -43,7 +43,7 @@
                 }else if (input.name === 'bank') {
                     orderData.append(input.name, input.value);
                 } else {
-                    console.log({name: input.name, value: input.value});
+                    console.log({ name: input.name, value: input.value });
                     orderData.append(input.name, input.value);
                 }
             });
@@ -315,9 +315,9 @@
                 </div>
             `,
             7: `
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <div class="col">
-                        <div class="card">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-3">
+                    <div class="col" role="button">
+                        <div class="card hover-effect">
                             <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
@@ -325,8 +325,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="card">
+                    <div class="col" role="button">
+                        <div class="card hover-effect">
                             <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
@@ -334,8 +334,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="card">
+                    <div class="col" role="button">
+                        <div class="card hover-effect">
                             <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
@@ -343,8 +343,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="card">
+                    <div class="col" role="button">
+                        <div class="card hover-effect">
                             <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
