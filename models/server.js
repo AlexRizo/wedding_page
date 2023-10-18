@@ -15,6 +15,7 @@ import pendingRouter from "../routes/pending.js";
 import orderRouter from "../routes/order.js";
 import authRouter from "../routes/auth.js";
 import userRouter from "../routes/user.js";
+import layoutRouter from "../routes/layout.js";
 import cloudinaryRouter from "../routes/cloudinary.js";
 
 import fileUpload from "express-fileupload";
@@ -38,6 +39,7 @@ class Server {
             user: '/user',
             staff: '/staff',
             team: '/team',
+            layout: '/layout',
             cloudinary: '/cloudinary'
             
         }
@@ -103,6 +105,8 @@ class Server {
         this.app.use(this.paths.order, orderRouter);
         
         this.app.use(this.paths.user, userRouter);
+
+        this.app.use(this.paths.layout, layoutRouter);
 
         this.app.use(this.paths.cloudinary, cloudinaryRouter);
 

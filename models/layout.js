@@ -18,7 +18,7 @@ Layout.init(
             type: new DataTypes.STRING(1000),
             allowNull: false,
         },
-        layoutImage: {
+        layoutPictureId: {
             type: DataTypes.INTEGER,
             defaultValue: 1,
         },

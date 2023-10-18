@@ -314,46 +314,7 @@
                     <button type="submit" class="btn btn-dark btn-save">Guardar</button>
                 </div>
             `,
-            7: `
-                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-3">
-                    <div class="col" role="button">
-                        <div class="card hover-effect">
-                            <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" role="button">
-                        <div class="card hover-effect">
-                            <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" role="button">
-                        <div class="card hover-effect">
-                            <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" role="button">
-                        <div class="card hover-effect">
-                            <img src="/assets/img/invitacion.jpg" class="card-img-top" alt="invitación">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
+            7: true
         };
         
         switch (step) {
@@ -450,33 +411,51 @@
 
     socket.on('set-actuallly-step', (orderStep) => {
         stepId = orderStep.id;
+        let cards = '';
+
+        if (stepId == 7) {
+            fetch(`${ url }/layout/getall`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(({ response }) => {
+                const layouts = {}
+
+                response.rows.forEach(row => {
+                    cards += ``
+                })
+            })
+            .catch(console.error);
+        }
+                
         switch (orderStep.id) {
             case 1:
-                formByStep(orderStep.name, orderStep.id)
+                formByStep(orderStep.name, stepId);
                 break;
 
             case 2:
-                formByStep(orderStep.name, orderStep.id)
+                formByStep(orderStep.name, stepId);
                 break;
 
             case 3:
-                formByStep(orderStep.name, orderStep.id)
+                formByStep(orderStep.name, stepId);
                 break;
 
             case 4:
-                formByStep(orderStep.name, orderStep.id)
+                formByStep(orderStep.name, stepId);
                 break;
 
             case 5:
-                formByStep(orderStep.name, orderStep.id)
+                formByStep(orderStep.name, stepId);
                 break;
 
             case 6:
-                formByStep(orderStep.name, orderStep.id)
+                formByStep(orderStep.name, stepId);
                 break;
 
             case 7:
-                formByStep(orderStep.name, orderStep.id)
+                formByStep(orderStep.name, stepId, layouts);
+                window.location
                 break;
 
             default:
