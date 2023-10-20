@@ -5,7 +5,7 @@
     const form = document.querySelector('form');
     const cardHeader = document.querySelector('.card-header');
     const cardTitle = document.querySelector('.card-title');
-
+    
     const orderId = document.getElementById('id').value;
     let stepId = 0;
 
@@ -70,6 +70,7 @@
 
     form.addEventListener ('submit', async(ev) => {
         ev.preventDefault();
+        getLoader();
         
         const orderData = getOrderData();
 
@@ -107,6 +108,7 @@
     });
 
     const formByStep = (title = 'Llena los datos', step = 0, data = {}) => {
+        removeLoader()
         const steps = {
             1: `            
                 <div class="col-md-6 mb-3">
@@ -411,22 +413,6 @@
 
     socket.on('set-actuallly-step', (orderStep) => {
         stepId = orderStep.id;
-        let cards = '';
-
-        if (stepId == 7) {
-            fetch(`${ url }/layout/getall`, {
-                method: 'GET',
-            })
-            .then(response => response.json())
-            .then(({ response }) => {
-                const layouts = {}
-
-                response.rows.forEach(row => {
-                    cards += ``
-                })
-            })
-            .catch(console.error);
-        }
                 
         switch (orderStep.id) {
             case 1:
@@ -454,8 +440,7 @@
                 break;
 
             case 7:
-                formByStep(orderStep.name, stepId, layouts);
-                window.location
+                window.location = `${ url }/layout/select`;
                 break;
 
             default:

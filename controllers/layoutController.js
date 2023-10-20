@@ -1,5 +1,9 @@
 import Layout from "../models/layout.js";
 
+export const getLayoutsPage = (req, res) => {
+    return res.status(200).render('home/layout');
+}
+
 export const getLayouts = async (req, res) => {
     const response = await Layout.findAndCountAll();    
     return res.status(200).json({ response })

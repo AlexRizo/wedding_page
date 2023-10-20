@@ -12,6 +12,8 @@
         console.log(orders);
         let contentPage = ``;
 
+        removeLoader();
+        
         orders.forEach(order => {
             contentPage += `
             <div class="card mb-3 col-7">

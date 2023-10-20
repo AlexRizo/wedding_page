@@ -8,6 +8,16 @@ if (!token) {
     window.location = `${ url }/login`;
 }
 
+const removeLoader = () => {
+    let loader = document.querySelector('.loader');
+    loader.hidden = true;
+}
+
+const getLoader = () => {
+    let loader = document.querySelector('.loader');
+    loader.hidden = false;
+}
+
 let socket;
 
 const logout = () => {
@@ -26,11 +36,8 @@ const connectSocket = async() => {
 
     socket.on('connect', () => console.log('Socket Online'));
     socket.on('disconnect', () => {
-        console.log('Socket Offline')
-        // localStorage.removeItem('tkn');
-        // localStorage.removeItem('ur');
-        // localStorage.removeItem('uid');
-        // location.reload();
+        console.log('Socket Offline');
+        // logout();
     });
 }
 
