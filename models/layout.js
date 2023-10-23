@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../database/database.js';
+import LayoutPicture from './layoutPicture.js';
 
 class Layout extends Model {}
   
@@ -29,5 +30,8 @@ Layout.init(
         timestamps: false,
     },
 );
+
+LayoutPicture.hasOne(Layout, {foreignKey: 'layoutPictureId'});
+Layout.belongsTo(LayoutPicture);
 
 export default Layout;

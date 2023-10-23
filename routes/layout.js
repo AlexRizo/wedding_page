@@ -3,7 +3,7 @@ import { getLayouts, getDemoLayout, getLayoutsPage } from "../controllers/layout
 
 const router = Router();
 
-router.get('/getall', getLayouts);
+router.get('/get-all', getLayouts);
 
 router.get('/demo/:id', getDemoLayout);
 

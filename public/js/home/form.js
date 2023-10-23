@@ -33,7 +33,7 @@
         // * Para inputs;
         if (inputs) {
             inputs.forEach(input => {
-                // ? Si es necesario añade más validaciones para distintos tipos de inputs;
+                // ? Si es necesario añade más validaciones para distintos inputs;
                 if (input.type === 'file') {
                     orderData.append(input.name, { 1: input.name, 2: input.files[0].name });
                     orderData.append(input.name, input.files[0]);
@@ -95,9 +95,11 @@
                 });
 
                 console.error(expressErrors);
+                removeLoader();
                 return sendNotification('Campos inválidos', errorString);
             } else if (error) {
                 console.error(error);
+                removeLoader();
                 return sendNotification('Ha ocurrido un error', error);
             }
 
@@ -449,7 +451,7 @@
         }
     });
 
-    socket.on('data-saved', (response) => {
+    socket.on('data-saved', () => {
         return sendNotification('Datos enviados', `Se han enviado los datos correctamente.`)
     });
 
