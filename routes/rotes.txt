@@ -1,7 +1,0 @@
-Users:
-localhost:3000/user/create
-
-Teams:
-localhost:3000/team
-localhost:3000/team/create
-localhost:3000/team/update/:id

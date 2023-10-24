@@ -70,3 +70,7 @@
 .hover-effect:hover {
     box-shadow: rgba(0, 0, 0, 0.3) 0 0 15px;
 }
+
+.pointer {
+    cursor: pointer;
+}
